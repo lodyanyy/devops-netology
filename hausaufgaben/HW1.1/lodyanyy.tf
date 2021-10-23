@@ -5,7 +5,7 @@ provider "aws" {
 }
 
 resource "aws_cloudwatch_log_group" "lambda" {
-  name = "/aws/lambda/netology"
+  name = "/aws/lambda/netology/lodyanyy_nikolay"
 
   retention_in_days = 1
 }
