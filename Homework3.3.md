@@ -38,13 +38,13 @@
     Смотрим, сколько места занимает процесс:
 		$ lsof -p 7189
 		COMMAND  PID    USER   FD   TYPE DEVICE SIZE/OFF    NODE NAME
-		cat     7189 vagrant    1w   REG  253,0       69 3670032 /tmp/some_log
+		cat     7189 vagrant    1w   REG  253,0       69 3670032 /tmp/some_log (deleted)
 	В данном случае 69 байт, файловый дескриптор 1
 	Далее используем перенаправление вывода:
 		$ > some_log
 	И проверяем теперь место, занимаемое процессом 7189:
 		COMMAND  PID    USER   FD   TYPE DEVICE SIZE/OFF    NODE NAME
-		cat     7189 vagrant    1w   REG  253,0        0 3670032 /tmp/some_log
+		cat     7189 vagrant    1w   REG  253,0        0 3670032 /tmp/some_log (deleted)
 	Размер файла стал равен 0.
 	
 	
