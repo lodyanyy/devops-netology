@@ -162,29 +162,15 @@ traceroute to 8.8.8.8 (8.8.8.8), 30 hops max, 60 byte packets
 #### 7. Какие DNS сервера отвечают за доменное имя dns.google? Какие A записи? воспользуйтесь утилитой `dig`
 
 ```bash
-lodyanyy@lodyanyy:~$ dig dns.google
-
-; <<>> DiG 9.16.1-Ubuntu <<>> dns.google
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 41945
-;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
-
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 65494
-;; QUESTION SECTION:
-;dns.google.                    IN      A
-
-;; ANSWER SECTION:
-dns.google.             1577    IN      A       8.8.4.4
-dns.google.             1577    IN      A       8.8.8.8
-
-;; Query time: 23 msec
-;; SERVER: 127.0.0.53#53(127.0.0.53)
-;; WHEN: Чт дек 09 15:18:20 +04 2021
-;; MSG SIZE  rcvd: 71
+lodyanyy@lodyanyy:~$ dig +short NS dns.google
+ns1.zdns.google.
+ns3.zdns.google.
+ns2.zdns.google.
+ns4.zdns.google.
+lodyanyy@lodyanyy:~$ dig +short A dns.google
+8.8.8.8
+8.8.4.4
 ```  
-   Ответ: 8.8.4.4, 8.8.8.8
 
 #### 8. Проверьте PTR записи для IP адресов из задания 7. Какое доменное имя привязано к IP? воспользуйтесь утилитой `dig`
 
