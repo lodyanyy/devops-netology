@@ -2,11 +2,11 @@
 
 #### 1. Установите Bitwarden плагин для браузера. Зарегестрируйтесь и сохраните несколько паролей.
 
-
+![bitwarden1](https://user-images.githubusercontent.com/87534423/147741864-8b113989-289c-476e-8821-b9d4a3d626c4.jpg)
 
 #### 2. Установите Google authenticator на мобильный телефон. Настройте вход в Bitwarden акаунт через Google authenticator OTP.
 
-
+![bitwarden2](https://user-images.githubusercontent.com/87534423/147741892-93ea21bb-5722-4492-a9b6-c261850b430d.jpg)
 
 #### 3. Установите apache2, сгенерируйте самоподписанный сертификат, настройте тестовый сайт для работы по HTTPS.
 
@@ -31,47 +31,18 @@ lodyanyy@lodyanyy:~$ sudo vim /var/www/example.com/index.html
 
 lodyanyy@lodyanyy:~$ sudo a2ensite www.example.com
 ```
+![example](https://user-images.githubusercontent.com/87534423/147741928-3e35ff99-8b89-4689-847d-d06a80a524bd.jpg)
 
 #### 4. Проверьте на TLS уязвимости произвольный сайт в интернете (кроме сайтов МВД, ФСБ, МинОбр, НацБанк, РосКосмос, РосАтом, РосНАНО и любых госкомпаний, объектов КИИ, ВПК ... и тому подобное).  
 
+Устанавливаем инструмент для тестирования testssl.sh 
+
 ```bash
 $ git clone --depth 1 https://github.com/drwetter/testssl.sh.git  
-$ ./testssl.sh -U --sneaky https://www.ruchoco.ru/
-Testing all IPv4 addresses (port 443): 96.16.49.198 96.16.49.212
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- Start 2021-12-28 14:27:51        -->> 96.16.49.198:443 (www.ruchoco.ru) <<--
-
- Further IP addresses:   96.16.49.212 2a02:26f0:41::216:1fca 2a02:26f0:41::216:1fc3 2a02:26f0:41::216:1fd1 
- rDNS (96.16.49.198):    a96-16-49-198.deploy.static.akamaitechnologies.com.
- Service detected:       HTTP
-
-
- Testing vulnerabilities 
-
- Heartbleed (CVE-2014-0160)                not vulnerable (OK), no heartbeat extension
- CCS (CVE-2014-0224)                       not vulnerable (OK)
- Ticketbleed (CVE-2016-9244), experiment.  not vulnerable (OK), no session tickets
- ROBOT                                     Server does not support any cipher suites that use RSA key transport
- Secure Renegotiation (RFC 5746)           OpenSSL handshake didn't succeed
- Secure Client-Initiated Renegotiation     not vulnerable (OK)
- CRIME, TLS (CVE-2012-4929)                not vulnerable (OK)
- BREACH (CVE-2013-3587)                    potentially NOT ok, "gzip" HTTP compression detected. - only supplied "/" tested
-                                           Can be ignored for static pages or if no secrets in the page
- POODLE, SSL (CVE-2014-3566)               not vulnerable (OK)
- TLS_FALLBACK_SCSV (RFC 7507)              No fallback possible (OK), no protocol below TLS 1.2 offered
- SWEET32 (CVE-2016-2183, CVE-2016-6329)    not vulnerable (OK)
- FREAK (CVE-2015-0204)                     not vulnerable (OK)
- DROWN (CVE-2016-0800, CVE-2016-0703)      not vulnerable on this host and port (OK)
-                                           make sure you don't use this certificate elsewhere with SSLv2 enabled services
-                                           https://censys.io/ipv4?q=6D3AC8B076F639DB0F514F5ADD0100DED0CFDBE53DC287D46F08825E1C51E64E could help you to find out
- LOGJAM (CVE-2015-4000), experimental      not vulnerable (OK): no DH EXPORT ciphers, no DH key detected with <= TLS 1.2
- BEAST (CVE-2011-3389)                     not vulnerable (OK), no SSL3 or TLS1
- LUCKY13 (CVE-2013-0169), experimental     not vulnerable (OK)
- Winshock (CVE-2014-6321), experimental    not vulnerable (OK)
- RC4 (CVE-2013-2566, CVE-2015-2808)        no RC4 ciphers detected (OK)
-
- Done 2021-12-28 14:28:15 [  29s] -->> 96.16.49.198:443 (www.ruchoco.ru) <<--
 ```
+Запускаем проверку  
+
+![ruchoco](https://user-images.githubusercontent.com/87534423/147742001-489c02a3-ab4f-44af-8136-4aa2bd3a1345.jpg)
 
 #### 5. Установите на Ubuntu ssh сервер, сгенерируйте новый приватный ключ. Скопируйте свой публичный ключ на другой сервер. Подключитесь к серверу по SSH-ключу.  
 
@@ -126,7 +97,9 @@ lodyanyy@lodyanyy:~$ vi .ssh/config
 	IdentityFile ~/.ssh/somenewkey_rsa
 	User vagrant
 	Port 2200
-
+```
+Теперь зайдем на сервер по имени somevagrant
+```bash
 lodyanyy@lodyanyy:~$ ssh somevagrant
 Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.4.0-91-generic x86_64)
 ...
@@ -142,6 +115,6 @@ tcpdump: listening on enp3s0, link-type EN10MB (Ethernet), capture size 262144 b
 143 packets received by filter
 0 packets dropped by kernel
 ```
+Открываем дамп трафика в wireshark:
 
-
-
+![wireshark](https://user-images.githubusercontent.com/87534423/147742427-53551890-0ece-4195-8c0a-e8290606ada9.jpg)
