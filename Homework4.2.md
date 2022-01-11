@@ -33,14 +33,27 @@ for result in result_os.split('\n'):
         break
 ```
 
-### Ваш скрипт:
+### Ваш скрипт:  
+убрали лишнюю переменную is_change и команду break, прерывающую выполнение программы после первого успешно найденного значения. Добавили функцию os.getcwd(), возвращающую текущую директорию поиска. 
 ```python
-???
+#!/usr/bin/env python3
+import os
+bash_command = ["cd ~/netology/sysadm-homeworks", "git status"]
+result_os = os.popen(' && '.join(bash_command)).read()
+#is_change = False
+for result in result_os.split('\n'):
+    if result.find('изменено') != -1:
+        prepare_result = result.replace('\tизменено:      ', '')
+        print(os.getcwd() ,'/' , prepare_result, sep='')
+        #break
 ```
 
 ### Вывод скрипта при запуске при тестировании:
-```
-???
+```bash
+lodyanyy@lodyanyy:~$ /home/lodyanyy/123.py
+/home/lodyanyy/README.md
+/home/lodyanyy/new/123456.md
+/home/lodyanyy/test1.sh
 ```
 
 ## Обязательная задача 3
