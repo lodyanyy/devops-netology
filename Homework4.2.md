@@ -61,12 +61,33 @@ lodyanyy@lodyanyy:~$ /home/lodyanyy/123.py
 
 ### Ваш скрипт:
 ```python
-???
+#!/usr/bin/env python3
+import os
+import sys
+path=os.getcwd()
+if len(sys.argv)!=1:
+    path=sys.argv[1]
+bash_command = [f'cd {path}', 'git status 2>&1']
+result_os = os.popen(' && '.join(bash_command)).read()
+for result in result_os.split('\n'):
+    if result.find('fatal') != -1:
+        print('Каталог не является GIT репозиторием')
+    if result.find('изменено') != -1:
+        prepare_result = result.replace('\tизменено:      ', '')
+        print(os.getcwd() ,'/' , prepare_result, sep='')
 ```
-
 ### Вывод скрипта при запуске при тестировании:
+
 ```
-???
+lodyanyy@lodyanyy:~/netology/sysadm-homeworks$ ./123.py
+/home/lodyanyy/netology/sysadm-homeworks/README.md
+/home/lodyanyy/netology/sysadm-homeworks/new/123456.md
+/home/lodyanyy/netology/sysadm-homeworks/test1.sh
+lodyanyy@lodyanyy:~/netology/sysadm-homeworks$ ./123.py /media/lodyanyy/Soft/devops-netology
+/home/lodyanyy/netology/sysadm-homeworks/test1.sh
+/home/lodyanyy/netology/sysadm-homeworks/test133.md
+lodyanyy@lodyanyy:~/netology/sysadm-homeworks$ ./123.py /media/lodyanyy/Soft
+Каталог не является GIT репозиторием
 ```
 
 ## Обязательная задача 4
