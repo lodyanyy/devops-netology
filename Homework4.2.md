@@ -95,10 +95,34 @@ lodyanyy@lodyanyy:~/netology/sysadm-homeworks$ ./123.py /media/lodyanyy/Soft
 
 ### Ваш скрипт:
 ```python
-???
+#!/usr/bin/env python3
+
+import socket
+import time
+
+hosts = {'drive.google.com':'0.0.0.0', 'mail.google.com':'0.0.0.0', 'google.com':'0.0.0.0'}
+while 1 == 1 :
+  for host in hosts :
+    ip = socket.gethostbyname(host)
+    if ip != hosts[host] :
+      print(' [ERROR] ' + str(host) +' IP mistmatch: '+hosts[host]+' '+ip)
+      hosts[host]=ip
+    else :
+        print(str(host) + ' ' + ip)
+    time.sleep(2)
 ```
 
 ### Вывод скрипта при запуске при тестировании:
-```
-???
+```bash
+lodyanyy@lodyanyy:~/netology/sysadm-homeworks$ /home/lodyanyy/netology/sysadm-homeworks/456.py
+ [ERROR] drive.google.com IP mistmatch: 0.0.0.0 74.125.131.194
+ [ERROR] mail.google.com IP mistmatch: 0.0.0.0 64.233.165.19
+ [ERROR] google.com IP mistmatch: 0.0.0.0 173.194.222.102
+drive.google.com 74.125.131.194
+mail.google.com 64.233.165.19
+google.com 173.194.222.102
+drive.google.com 74.125.131.194
+mail.google.com 64.233.165.19
+google.com 173.194.222.102
+...
 ```
