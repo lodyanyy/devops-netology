@@ -26,7 +26,42 @@
 Результатом курсовой работы должны быть снимки экрана или текст:
 
 - Процесс установки и настройки ufw
+```bash
+$ sudo apt-get install ufw              #установка
+  Reading package lists... Done
+  Building dependency tree       
+  Reading state information... Done
+  ufw is already the newest version (0.36-6).
+  0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+$ sudo ufw status
+  Status: inactive
+$ sudo ufw enable
+  Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+  Firewall is active and enabled on system startup
+$ sudo ufw status
+  Status: active
+  
+$ sudo ufw default allow outgoing           #возвращаем 
+Default outgoing policy changed to 'allow'
+(be sure to update your rules accordingly)
+$ sudo ufw allow in on lo from 0.0.0.0/0
+$ sudo ufw allow 22
+$ sudo ufw allow 443
+$ sudo ufw status
+  Status: active
+
+  To                         Action      From
+  --                         ------      ----
+  22                         ALLOW       Anywhere                  
+  443                        ALLOW       Anywhere                  
+  Anywhere on lo             ALLOW       Anywhere                  
+  22 (v6)                    ALLOW       Anywhere (v6)             
+  443 (v6)                   ALLOW       Anywhere (v6)  
+```
 - Процесс установки и выпуска сертификата с помощью hashicorp vault
+```bash
+
+```
 - Процесс установки и настройки сервера nginx
 - Страница сервера nginx в браузере хоста не содержит предупреждений 
 - Скрипт генерации нового сертификата работает (сертификат сервера ngnix должен быть "зеленым")
