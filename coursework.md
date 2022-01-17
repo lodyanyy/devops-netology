@@ -41,12 +41,12 @@ $ sudo ufw enable
 $ sudo ufw status
   Status: active
   
-$ sudo ufw default allow outgoing           #возвращаем 
+$ sudo ufw default allow outgoing           #изменяем значения по умолчанию для исходящих соединений на "разрешено"
 Default outgoing policy changed to 'allow'
 (be sure to update your rules accordingly)
-$ sudo ufw allow in on lo from 0.0.0.0/0
-$ sudo ufw allow 22
-$ sudo ufw allow 443
+$ sudo ufw allow in on lo from 0.0.0.0/0    #разрешаем входящие подключения на localhost
+$ sudo ufw allow 22                         #разрешаем входящие подключения по любому порту 22
+$ sudo ufw allow 443                        #разрешаем входящие подключения по любому порту 443
 $ sudo ufw status
   Status: active
 
@@ -60,8 +60,32 @@ $ sudo ufw status
 ```
 - Процесс установки и выпуска сертификата с помощью hashicorp vault
 ```bash
+$ curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -                                  #устанавливаем hashicorp vault
+$ sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+$ sudo apt-get update && sudo apt-get install vault
 
+$ vault server -dev -dev-root-token-id root                     #запускаем сервер vault в отдельной сессии
+
+$ export VAULT_ADDR=http://127.0.0.1:8200                       #экспортируем переменные сред для адреса севрера хранилища и для проверки подлинности
+$ export VAULT_TOKEN=root
+$ vault secrets enable pki                                      #включем механизм pki
+Success! Enabled the pki secrets engine at: pki/
+$ vault secrets tune -max-lease-ttl=720h pki                    #устаналиваем максимальное время выдачи сертификатов месяц
+Success! Tuned the secrets engine at: pki/
+$ vault write -field=certificate pki/root/generate/internal \   #создаем корневой сертификат, сохраняем как CA_cert.crt
+> common_name="example.com" \
+> ttl=720h > CA_cert.crt
+
+$ vault write pki/config/urls \                                 #настраиваем URL-адреса центра сертификации и CRL
+> issuing_certificates="$VAULT_ADDR/v1/pki/ca" \
+> crl_distribution_points="$VAULT_ADDR/v1/pki/crl"
+Success! Data written to: pki/config/urls
+
+$ vagrant scp default:~/CA_cert.crt ~/certs                     #копируем сертификат на хостовую машину
 ```
+устанавливаем сертификат в доверенные  
+![add_cert](https://user-images.githubusercontent.com/87534423/149737701-31db6f33-4be7-40fd-bfbe-9e8a4e2fb79a.jpg)
+
 - Процесс установки и настройки сервера nginx
 - Страница сервера nginx в браузере хоста не содержит предупреждений 
 - Скрипт генерации нового сертификата работает (сертификат сервера ngnix должен быть "зеленым")
