@@ -28,35 +28,25 @@
 - Процесс установки и настройки ufw
 ```bash
 $ sudo apt-get install ufw              #установка
-  Reading package lists... Done
-  Building dependency tree       
-  Reading state information... Done
-  ufw is already the newest version (0.36-6).
-  0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-$ sudo ufw status
-  Status: inactive
 $ sudo ufw enable
   Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
   Firewall is active and enabled on system startup
-$ sudo ufw status
-  Status: active
-  
-$ sudo ufw default allow outgoing           #изменяем значения по умолчанию для исходящих соединений на "разрешено"
-Default outgoing policy changed to 'allow'
-(be sure to update your rules accordingly)
 $ sudo ufw allow in on lo from 0.0.0.0/0    #разрешаем входящие подключения на localhost
 $ sudo ufw allow 22                         #разрешаем входящие подключения по любому порту 22
 $ sudo ufw allow 443                        #разрешаем входящие подключения по любому порту 443
-$ sudo ufw status
-  Status: active
+$ sudo ufw status verbose
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
 
-  To                         Action      From
-  --                         ------      ----
-  22                         ALLOW       Anywhere                  
-  443                        ALLOW       Anywhere                  
-  Anywhere on lo             ALLOW       Anywhere                  
-  22 (v6)                    ALLOW       Anywhere (v6)             
-  443 (v6)                   ALLOW       Anywhere (v6)  
+To                         Action      From
+--                         ------      ----
+Anywhere on lo             ALLOW IN    Anywhere                  
+22                         ALLOW IN    Anywhere                  
+443                        ALLOW IN    Anywhere                  
+22 (v6)                    ALLOW IN    Anywhere (v6)             
+443 (v6)                   ALLOW IN    Anywhere (v6) 
 ```
 - Процесс установки и выпуска сертификата с помощью hashicorp vault
 ```bash
@@ -70,18 +60,36 @@ $ export VAULT_ADDR=http://127.0.0.1:8200                       #экспорт�
 $ export VAULT_TOKEN=root
 $ vault secrets enable pki                                      #включем механизм pki
 Success! Enabled the pki secrets engine at: pki/
-$ vault secrets tune -max-lease-ttl=720h pki                    #устаналиваем максимальное время выдачи сертификатов месяц
+$ vault secrets tune -max-lease-ttl=87600h pki                  #устаналиваем максимальное время выдачи сертификатов месяц
 Success! Tuned the secrets engine at: pki/
 $ vault write -field=certificate pki/root/generate/internal \   #создаем корневой сертификат, сохраняем как CA_cert.crt
-> common_name="example.com" \
-> ttl=720h > CA_cert.crt
+> common_name="example.coursework.com" \
+> ttl=87600h > root_cert.crt
 
 $ vault write pki/config/urls \                                 #настраиваем URL-адреса центра сертификации и CRL
 > issuing_certificates="$VAULT_ADDR/v1/pki/ca" \
 > crl_distribution_points="$VAULT_ADDR/v1/pki/crl"
 Success! Data written to: pki/config/urls
+$ vault secrets enable -path=pki_int pki
+$ vault secrets tune -max-lease-ttl=43800h pki_int
+Success! Tuned the secrets engine at: pki_int/
+$ vagrant@vagrant:~$ vault write -format=json pki_int/intermediate/generate/internal \
+> common_name="example.coursework.com Intermediate Authority" \
+> | jq -r '.data.csr' > pki_intermediate.csr
+$ vault write -format=json pki/root/sign-intermediate csr=@pki_intermediate.csr \
+> format=pem_bundle ttl="43800h" \
+> | jq -r '.data.certificate' > intermediate.cert.pem
+$ vault write pki_int/intermediate/set-signed certificate=@intermediate.cert.pem
+Success! Data written to: pki_int/intermediate/set-signed
+$ vault write pki_int/roles/coursework \
+> allowed_domains="example.coursework.com" \
+> allow_subdomains=true \
+> max_ttl="744h"
+Success! Data written to: pki_int/roles/coursework
 
-$ vagrant scp default:~/CA_cert.crt ~/certs                     #копируем сертификат на хостовую машину
+
+
+###$ vagrant scp default:~/CA_cert.crt ~/certs                     #копируем сертификат на хостовую машину
 ```
 устанавливаем сертификат в доверенные  
 ![add_cert](https://user-images.githubusercontent.com/87534423/149737701-31db6f33-4be7-40fd-bfbe-9e8a4e2fb79a.jpg)
