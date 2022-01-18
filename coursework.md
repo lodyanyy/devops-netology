@@ -87,6 +87,29 @@ $ vagrant scp default:~/CA_cert.crt ~/certs                     #копируе�
 ![add_cert](https://user-images.githubusercontent.com/87534423/149737701-31db6f33-4be7-40fd-bfbe-9e8a4e2fb79a.jpg)
 
 - Процесс установки и настройки сервера nginx
+```bash
+$ sudo apt install nginx
+$ sudo mkdir /var/www/coursework.com
+$ sudo vim /var/www/coursework.com/index.html
+$ sudo vi /etc/nginx/sites-available/default
+
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        listen 443 ssl default_server;
+        listen [::]:443 ssl default_server;
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+        server_name coursework.com;
+        ssl_certificate     /home/vagrant/ssl/coursework.com.crt;
+        ssl_certificate_key /home/vagrant/ssl/coursework.com.key;
+        ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+        ssl_ciphers         HIGH:!aNULL:!MD5;**
+}
+
+
+```
+
 - Страница сервера nginx в браузере хоста не содержит предупреждений 
 - Скрипт генерации нового сертификата работает (сертификат сервера ngnix должен быть "зеленым")
 - Crontab работает (выберите число и время так, чтобы показать что crontab запускается и делает что надо)
