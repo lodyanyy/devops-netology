@@ -62,7 +62,7 @@ $ vault secrets enable pki                                      #включем 
 Success! Enabled the pki secrets engine at: pki/
 $ vault secrets tune -max-lease-ttl=87600h pki                  #устаналиваем максимальное время выдачи сертификатов месяц
 Success! Tuned the secrets engine at: pki/
-$ vault write -field=certificate pki/root/generate/internal \   #создаем корневой сертификат, сохраняем как CA_cert.crt
+$ vault write -field=certificate pki/root/generate/internal \   #создаем корневой сертификат, сохраняем как root_cert.crt
 > common_name="example.coursework.com" \
 > ttl=87600h > root_cert.crt
 
@@ -89,14 +89,14 @@ Success! Data written to: pki_int/roles/coursework
 
 
 
-###$ vagrant scp default:~/CA_cert.crt ~/certs                     #копируем сертификат на хостовую машину
+####$ vagrant scp default:~/root_cert.crt ~/certs               #копируем сертификат на хостовую машину
 ```
 устанавливаем сертификат в доверенные  
 ![add_cert](https://user-images.githubusercontent.com/87534423/149737701-31db6f33-4be7-40fd-bfbe-9e8a4e2fb79a.jpg)
 
 - Процесс установки и настройки сервера nginx
 ```bash
-$ sudo apt install nginx
+$ sudo apt-get install nginx
 $ sudo mkdir /var/www/coursework.com
 $ sudo vim /var/www/coursework.com/index.html
 $ sudo vi /etc/nginx/sites-available/default
