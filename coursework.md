@@ -141,7 +141,7 @@ vagrant@vagrant:~$ crontab -l
 # Edit this file to introduce tasks to be run by cron.
 # m h  dom mon dow   command
 21 17 * * * /home/vagrant/script.sh >/dev/null 2>&1
-vagrant@vagrant:~$ grep CRON /var/log/syslog
+$ grep CRON /var/log/syslog
 ...
 Jan 19 17:21:01 vagrant CRON[641]: (vagrant) CMD (/home/vagrant/new_cert.sh >/dev/null 2>&1)
 ```
