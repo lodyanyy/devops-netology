@@ -20,6 +20,33 @@ Hey, Netology
 </html>
 ```
 Опубликуйте созданный форк в своем репозитории и предоставьте ответ в виде ссылки на https://hub.docker.com/username_repo.
+
+## Решение
+ 
+ Скачиваем образ nginx:
+  > $ docker pull nginx
+ 
+ Создаем dockerfile:
+ 
+ ```
+ FROM nginx
+ RUN echo '<html><head>Hey, Netology</head><body><h1>I am DevOps Engineer!</h1></body></html>' > /usr/share/nginx/html/index.html
+ ```
+ Делаем fork образа:
+ > $ docker build -f dockerfile.txt -t lodyanyy/netology:5.3 .
+
+ Пушим образ в репозиторий на hub.docker.com:
+ > $ docker push lodyanyy/netology:5.3
+
+ [Ссылка на образ](https://hub.docker.com/layers/193971112/lodyanyy/netology/5.3/images/sha256-6574876a1c7539a1c4c48fbfcc65b58280a1f79491cc1484e47ef47026755d96?context=repo)
+ 
+ Запускаем контейнер с пробросом на 8080 порт хоста:
+ > $ docker run -d -p 8080:80 lodyanyy/netology:5.3
+
+ В браузере видим результат:
+
+![image](https://user-images.githubusercontent.com/87534423/155344577-81c23474-f2ca-4aab-a33d-8dde75c47998.png)
+
 ## Задача 2
 Посмотрите на сценарий ниже и ответьте на вопрос:
 "Подходит ли в этом сценарии использование Docker контейнеров или лучше подойдет виртуальная машина, физическая машина? Может быть возможны разные варианты?"
