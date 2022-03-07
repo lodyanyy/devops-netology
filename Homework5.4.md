@@ -19,12 +19,12 @@
 
 Создать вашу первую виртуальную машину в Яндекс.Облаке.
 
-Для получения зачета, вам необходимо предоставить:
-- Скриншот страницы свойств созданной ВМ, как на примере ниже:
-
-<p align="center">
-  <img width="1200" height="600" src="./assets/yc_01.png">
-</p>
+## Решение
+\* Для получения ключа KEY.JSON делаем следующее:
+ - создаем сервисный аккаунт в yandex cloud с ролью editor
+ - генерируем ключ yc iam key create --service-account-name my-robot --output key.json
+ 
+![image](https://user-images.githubusercontent.com/87534423/157036722-0bc71d1e-4442-4e99-95bc-f407e705cb69.png)
 
 ## Задача 3
 
