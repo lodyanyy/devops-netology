@@ -26,6 +26,11 @@
 docker node ls
 ```
 
+## Решение
+
+![image](https://user-images.githubusercontent.com/87534423/165517926-de299bc2-5a3c-4e9b-8ee0-402b796def29.png)
+
+
 ## Задача 3
 
 Создать ваш первый, готовый к боевой эксплуатации кластер мониторинга, состоящий из стека микросервисов.
@@ -34,3 +39,7 @@ docker node ls
 ```
 docker service ls
 ```
+
+## Решение
+
+![image](https://user-images.githubusercontent.com/87534423/165518719-4bdf145e-9444-4122-998d-8e53a6c9562f.png)
