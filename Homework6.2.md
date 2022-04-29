@@ -7,6 +7,31 @@
 
 Приведите получившуюся команду или docker-compose манифест.
 
+## Решение
+lodyanyy@lodyanyy:~$ docker pull postgres:12  
+docker-compose.yaml
+>
+ ```
+ version: '3'
+ services:
+   db:
+     container_name: pg12
+     image: postgres:12
+     environment:
+       POSTGRES_USER: admin
+       POSTGRES_PASSWORD: admin
+       POSTGRES_DB: testdb
+     ports:
+       - "5432:5432"
+     volumes:      
+       - db_vol:/var/lib/postgresql/data/
+       - backup_vol:/var/lib/postgresql/
+
+ volumes:
+   db_vol:
+   backup_vol:
+ ```
+
 ## Задача 2
 
 В БД из задачи 1: 
