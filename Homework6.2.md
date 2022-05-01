@@ -13,23 +13,28 @@ docker-compose.yaml
 >
  ```
  version: '3'
- services:
-   db:
-     container_name: pg12
-     image: postgres:12
-     environment:
-       POSTGRES_USER: admin
-       POSTGRES_PASSWORD: admin
-       POSTGRES_DB: testdb
-     ports:
-       - "5432:5432"
-     volumes:      
-       - db_vol:/var/lib/postgresql/data/
-       - backup_vol:/var/lib/postgresql/
+services:
+  db:
+    container_name: pg12
+    image: postgres:12
+    environment:
+      POSTGRES_USER: lodyanyy
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: start_db
+    ports:
+      - "5432:5432"
+    volumes:      
+      - database_volume:/home/database/
+      - backup_volume:/home/backup/
 
- volumes:
-   db_vol:
-   backup_vol:
+volumes:
+  database_volume:
+  backup_volume:
+ ```  
+ Поднимаем docker-compose и запускаем bash внутри контейнера pg12:  
+ ```
+ $ docker-compose up -d
+ $ sudo docker exec -it pg12 bash
  ```
 
 ## Задача 2
@@ -56,7 +61,22 @@ docker-compose.yaml
 - итоговый список БД после выполнения пунктов выше,
 - описание таблиц (describe)
 - SQL-запрос для выдачи списка пользователей с правами над таблицами test_db
-- список пользователей с правами над таблицами test_db
+- список пользователей с правами над таблицами test_db  
+
+## Решение
+
+- создадим БД test_db и выполним подключение к созданной базе:
+```
+root@e8848a61a50f:/# createdb test_db -U lodyanyy
+root@e8848a61a50f:/# psql -d test_db -U lodyanyy
+psql (12.10 (Debian 12.10-1.pgdg110+1))
+Type "help" for help.
+```  
+- создадим пользователя test-admin-user:
+```
+test_db=# CREATE USER test_admin_user;
+CREATE ROLE
+```
 
 ## Задача 3
 
