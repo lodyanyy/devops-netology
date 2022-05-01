@@ -197,7 +197,21 @@ SELECT COUNT (*) FROM clients;
 
 Приведите SQL-запрос для выдачи всех пользователей, которые совершили заказ, а также вывод данного запроса.
  
-Подсказк - используйте директиву `UPDATE`.
+Подсказка - используйте директиву `UPDATE`.
+
+## Решение 
+- свяжем записи из таблиц следующими запросами:  
+```
+test_db=# UPDATE clients SET заказ=(select id from orders where наименование='Книга') WHERE фамилия='Иванов Иван Иванович';
+UPDATE 1
+test_db=# UPDATE clients SET заказ=(select id from orders where наименование='Монитор') WHERE фамилия='Петров Петр Петрович';
+UPDATE 1
+test_db=# UPDATE clients SET заказ=(select id from orders where наименование='Гитара') WHERE фамилия='Иоганн Себастьян Бах';
+UPDATE 1
+```
+- с помощью запроса ```SELECT* FROM clients WHERE заказ IS NOT NULL;``` выведем пользователей, которые совершили заказ:  
+![image](https://user-images.githubusercontent.com/87534423/166145922-29cdb02b-1357-4f54-a2cb-c5cc3206e51b.png)
+
 
 ## Задача 5
 
