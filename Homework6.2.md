@@ -76,7 +76,62 @@ Type "help" for help.
 ```
 test_db=# CREATE USER test_admin_user;
 CREATE ROLE
+```  
+- в БД test_db создадим таблицы orders и clients:
 ```
+test_db=# CREATE TABLE orders
+(
+   id SERIAL PRIMARY KEY,
+   наименование TEXT,
+   цена INTEGER
+);
+CREATE TABLE
+
+test_db=# CREATE TABLE clients
+(
+    id SERIAL PRIMARY KEY,
+    фамилия TEXT,
+    "страна проживания" TEXT,
+    заказ INTEGER,
+    FOREIGN KEY (заказ) REFERENCES orders(id)
+);
+CREATE TABLE
+test_db=# CREATE INDEX country_index ON clients ("страна проживания");
+CREATE INDEX
+```
+-предоставим привилегии на все операции пользователю test-admin-user на таблицы БД test_db:
+```
+test_db=# GRANT ALL ON TABLE orders TO test_admin_user;
+GRANT
+test_db=# GRANT ALL ON TABLE clients TO test_admin_user;
+GRANT
+```
+- создадим пользователя test-simple-user:
+```
+test_db=# CREATE USER test_simple_user;
+CREATE ROLE
+```
+- предоставим пользователю test-simple-user права на SELECT/INSERT/UPDATE/DELETE данных таблиц БД test_db:
+```
+test_db=# GRANT SELECT,INSERT,UPDATE,DELETE ON TABLE orders TO test_simple_user;
+GRANT
+test_db=# GRANT SELECT,INSERT,UPDATE,DELETE ON TABLE clients TO test_simple_user;
+GRANT
+```
+- итоговый список БД после выполнения пунктов выше:
+![image](https://user-images.githubusercontent.com/87534423/166143911-7cf835c8-ecd0-4af0-8386-a0a53bdfa5fa.png)
+
+- описание таблиц (describe):  
+![image](https://user-images.githubusercontent.com/87534423/166144225-2f663f63-463d-4c0e-9941-4099ffbf8b2c.png)
+
+- SQL-запрос для выдачи списка пользователей с правами над таблицами test_db:
+```
+test_db=# SELECT grantee, table_catalog, table_name, privilege_type FROM information_schema.table_privileges WHERE table_name IN ('orders','clients');
+```
+
+- список пользователей с правами над таблицами test_db: 
+![image](https://user-images.githubusercontent.com/87534423/166144639-fcdb6c17-487c-45bb-aadd-33b52842cce4.png)
+
 
 ## Задача 3
 
