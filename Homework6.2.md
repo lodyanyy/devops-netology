@@ -239,3 +239,29 @@ UPDATE 1
 Восстановите БД test_db в новом контейнере.
 
 Приведите список операций, который вы применяли для бэкапа данных и восстановления. 
+
+## Решение  
+- Создайте бэкап БД test_db и поместите его в volume, предназначенный для бэкапов:  
+```
+root@e8848a61a50f:/# pg_dump -U lodyanyy test_db > /home/backup/test_db.backup
+```
+- Остановим контейнер с PostgreSQL (pg12):
+```
+$ docker stop pg12
+```  
+![image](https://user-images.githubusercontent.com/87534423/166148166-af754c17-f5c2-4597-af9f-30d061d6a568.png)  
+
+- Поднимем новый пустой контейнер с PostgreSQL:  
+```
+$ docker run --name pg12_new -e POSTGRES_PASSWORD=12345678 -d postgres:12
+```
+- Восстановите БД test_db в новом контейнере. Для этого скопируем файл дампа из контейнера pg12 в контейнер pg12_new:  
+```
+$ docker cp pg12:/home/backup/test_db.backup backup/ && docker cp backup/test_db.backup pg12_new:/home/
+```  
+- и восстановим базу:
+```
+root@c8484fdf7c07:/# psql -U postgres -d test_db -f /home/test_db.backup
+```
+
+
