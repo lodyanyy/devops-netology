@@ -61,7 +61,7 @@ Creating 06-db-03-mysql_db_1 ... done
 ```
 $ docker cp test_dump.sql 06-db-03-mysql_db_1:/var/tmp/test_dump.sql
 ```
-Запускаем командную строку в контейнере и восстанавим дамп
+Запускаем командную строку в контейнере и восстановим дамп
 ```
 $ sudo docker exec -it 06-db-03-mysql_db_1 bash
 /# mysql -u lodyanyy -p lodyanyy_db < /var/tmp/test_dump.sql
@@ -128,7 +128,33 @@ mysql> select count(*) from orders where price > 300;
 Предоставьте привелегии пользователю `test` на операции SELECT базы `test_db`.
     
 Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES получите данные по пользователю `test` и 
-**приведите в ответе к задаче**.
+**приведите в ответе к задаче**.  
+
+## Решение
+
+Создадим пользователя с требуемыми параметрами:  
+```
+CREATE USER 'test'@'localhost' 
+    IDENTIFIED WITH mysql_native_password BY 'test-pass'
+    WITH MAX_CONNECTIONS_PER_HOUR 100
+    PASSWORD EXPIRE INTERVAL 180 DAY
+    FAILED_LOGIN_ATTEMPTS 3 PASSWORD_LOCK_TIME 2
+    ATTRIBUTE '{"first_name":"James", "last_name":"Pretty"}';
+```
+Предоставим привелегии пользователю test на операции SELECT базы lodyanyy_db:  
+```
+GRANT SELECT ON lodyanyy_db.* to 'test'@'localhost';
+```  
+Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES получим данные по пользователю test:
+```
+SELECT * from INFORMATION_SCHEMA.USER_ATTRIBUTES where USER = 'test';
++------+-----------+------------------------------------------------+
+| USER | HOST      | ATTRIBUTE                                      |
++------+-----------+------------------------------------------------+
+| test | localhost | {"last_name": "Pretty", "first_name": "James"} |
++------+-----------+------------------------------------------------+
+1 row in set (0.00 sec)
+```
 
 ## Задача 3
 
