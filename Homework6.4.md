@@ -15,7 +15,63 @@
 - вывода описания содержимого таблиц
 - выхода из psql
 
-## Решение
+## Решение  
+- вывод списка БД
+
+```
+postgres=# \l
+                                  List of databases
+    Name     |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
+-------------+----------+----------+------------+------------+-----------------------
+ lodyanyy_db | lodyanyy | UTF8     | en_US.utf8 | en_US.utf8 | 
+ postgres    | lodyanyy | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0   | lodyanyy | UTF8     | en_US.utf8 | en_US.utf8 | =c/lodyanyy          +
+             |          |          |            |            | lodyanyy=CTc/lodyanyy
+ template1   | lodyanyy | UTF8     | en_US.utf8 | en_US.utf8 | =c/lodyanyy          +
+             |          |          |            |            | lodyanyy=CTc/lodyanyy
+  (4 rows)
+```  
+- подключение к БД  
+
+```
+postgres=# \c postgres
+You are now connected to database "postgres" as user "lodyanyy".
+```  
+- вывод списка таблиц  
+
+```
+  postgres=# \dtS
+                    List of relations
+   Schema   |          Name           | Type  |  Owner   
+------------+-------------------------+-------+----------
+ pg_catalog | pg_aggregate            | table | lodyanyy
+ pg_catalog | pg_am                   | table | lodyanyy
+ pg_catalog | pg_amop                 | table | lodyanyy
+ pg_catalog | pg_amproc               | table | lodyanyy
+ pg_catalog | pg_attrdef              | table | lodyanyy
+ pg_catalog | pg_attribute            | table | lodyanyy
+ pg_catalog | pg_auth_members         | table | lodyanyy
+ ...
+```  
+- вывод описания содержимого таблиц  
+
+```
+postgres=# \dS+ pg_aggregate
+                                   Table "pg_catalog.pg_aggregate"
+      Column      |   Type   | Collation | Nullable | Default | Storage  | Stats target | Description 
+------------------+----------+-----------+----------+---------+----------+--------------+-------------
+ aggfnoid         | regproc  |           | not null |         | plain    |              | 
+ aggkind          | "char"   |           | not null |         | plain    |              | 
+ aggnumdirectargs | smallint |           | not null |         | plain    |              | 
+ aggtransfn       | regproc  |           | not null |         | plain    |              | 
+ aggfinalfn       | regproc  |           | not null |         | plain    |              | 
+ aggcombinefn     | regproc  |           | not null |         | plain    |              | 
+ ...
+```
+- выход из psql
+```
+postgres=# \q
+```
 
 ## Задача 2
 
