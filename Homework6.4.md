@@ -187,6 +187,44 @@ test_database=# select attname, avg_width from pg_stats where tablename='orders'
 
 ## Решение
 
+SQL-транзакция:
+
+```
+BEGIN;
+CREATE TABLE orders_1 (LIKE orders);
+INSERT INTO orders_1 SELECT * FROM orders WHERE price >499;
+DELETE FROM orders WHERE price >499;
+CREATE TABLE orders_2 (LIKE orders);
+INSERT INTO orders_2 SELECT * FROM orders WHERE price <=499;
+DELETE FROM orders WHERE price <=499;
+COMMIT;
+```
+```
+test_database=# SELECT * FROM public.orders;
+ id | title | price 
+----+-------+-------
+(0 rows)
+
+test_database=# SELECT * FROM public.orders_1;
+ id |       title        | price 
+----+--------------------+-------
+  2 | My little database |   500
+  6 | WAL never lies     |   900
+  8 | Dbiezdmin          |   501
+(3 rows)
+
+test_database=# SELECT * FROM public.orders_2;
+ id |        title         | price 
+----+----------------------+-------
+  1 | War and peace        |   100
+  3 | Adventure psql time  |   300
+  4 | Server gravity falls |   300
+  5 | Log gossips          |   123
+  7 | Me and my bash-pet   |   499
+(5 rows)
+```
+Можно изначально исключить "ручное" разбиение при проектировании таблицы orders, если добавить правила, при которых новые данные перед записью попадают в таблицу с подходящими условиями
+
 ## Задача 4
 
 Используя утилиту `pg_dump` создайте бекап БД `test_database`.
