@@ -144,7 +144,35 @@ CONTEXT:  COPY orders, line 1
 
 ERROR:  multiple primary keys for table "orders" are not allowed
 ```
+Подключимся к БД test_database, посмотрим список существующих таблиц и соберем статистику с помощью ANALYZE:
+```
+test_database=# root@5a070ae8235e:/# psql -U lodyanyy -d test_database
+psql (13.7 (Debian 13.7-1.pgdg110+1))
+Type "help" for help.
 
+test_database=# \dt
+         List of relations
+ Schema |  Name  | Type  |  Owner   
+--------+--------+-------+----------
+ public | orders | table | lodyanyy
+(1 row)
+
+test_database=# ^C
+test_database=# ANALYZE verbose orders;
+INFO:  analyzing "public.orders"
+INFO:  "orders": scanned 1 of 1 pages, containing 8 live rows and 16 dead rows; 8 rows in sample, 8 estimated total rows
+ANALYZE
+```
+Найдем столбец таблицы orders с наибольшим средним значением размера элементов в байтах (это title):
+```
+test_database=# select attname, avg_width from pg_stats where tablename='orders';
+ attname | avg_width 
+---------+-----------
+ id      |         4
+ title   |        16
+ price   |         4
+(3 rows)
+```
 
 
 ## Задача 3
