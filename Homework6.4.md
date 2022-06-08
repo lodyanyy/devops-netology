@@ -92,6 +92,61 @@ postgres=# \q
 
 ## Решение
 
+Создадим БД test_database:
+```
+lodyanyy_db=# CREATE DATABASE test_database;
+CREATE DATABASE
+lodyanyy_db-# \l
+                                   List of databases
+     Name      |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
+---------------+----------+----------+------------+------------+-----------------------
+ lodyanyy_db   | lodyanyy | UTF8     | en_US.utf8 | en_US.utf8 | 
+ postgres      | lodyanyy | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0     | lodyanyy | UTF8     | en_US.utf8 | en_US.utf8 | =c/lodyanyy          +
+               |          |          |            |            | lodyanyy=CTc/lodyanyy
+ template1     | lodyanyy | UTF8     | en_US.utf8 | en_US.utf8 | =c/lodyanyy          +
+               |          |          |            |            | lodyanyy=CTc/lodyanyy
+ test_database | lodyanyy | UTF8     | en_US.utf8 | en_US.utf8 | 
+(5 rows)
+```
+Восстановим бэкап:
+```
+root@5a070ae8235e:/# psql -U lodyanyy -d test_database < /var/tmp/test_dump.sql
+SET
+SET
+SET
+SET
+SET
+ set_config 
+------------
+ 
+(1 row)
+
+SET
+SET
+SET
+SET
+SET
+SET
+ERROR:  relation "orders" already exists
+ERROR:  role "postgres" does not exist
+ERROR:  relation "orders_id_seq" already exists
+ERROR:  role "postgres" does not exist
+ALTER SEQUENCE
+ALTER TABLE
+ERROR:  duplicate key value violates unique constraint "orders_pkey"
+DETAIL:  Key (id)=(1) already exists.
+CONTEXT:  COPY orders, line 1
+ setval 
+--------
+      8
+(1 row)
+
+ERROR:  multiple primary keys for table "orders" are not allowed
+```
+
+
+
 ## Задача 3
 
 Архитектор и администратор БД выяснили, что ваша таблица orders разрослась до невиданных размеров и
