@@ -231,4 +231,14 @@ test_database=# SELECT * FROM public.orders_2;
 
 Как бы вы доработали бэкап-файл, чтобы добавить уникальность значения столбца `title` для таблиц `test_database`?
 
-## Решение
+## Решение  
+
+Создадим бэкап:
+```
+pg_dump -U lodyanyy -d test_database >test_database_dump.sql
+```  
+Уникальность столбца title можно выполнить следующим образом:
+```
+test_database=# CREATE unique INDEX title_un ON public.orders(title);
+CREATE INDEX
+```
