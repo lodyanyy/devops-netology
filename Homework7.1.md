@@ -53,13 +53,22 @@
 Какие инструменты из уже используемых вы хотели бы использовать для нового проекта? 
 > Packer для сборки образов, Docker для разворачивания контейнеров, Terraform для инициации ресурсов, Kubernetes для оркестрации, Ansible для управления конфигурацией на начальных этапах проекта.
 
+Хотите ли рассмотреть возможность внедрения новых инструментов для этого проекта?
+> Возможно использование GitLab CI/CD для решения вопросов автоматизации
 
 ## Задача 2. Установка терраформ. 
 
 Официальный сайт: https://www.terraform.io/
 
 Установите терраформ при помощи менеджера пакетов используемого в вашей операционной системе.
-В виде результата этой задачи приложите вывод команды `terraform --version`.
+В виде результата этой задачи приложите вывод команды `terraform --version`.  
+
+## Решение 
+```
+lodyanyy@lodyanyy:~$ terraform --version
+Terraform v1.1.7
+on linux_amd64
+```
 
 ## Задача 3. Поддержка легаси кода. 
 
@@ -70,3 +79,24 @@
 
 В виде результата этой задачи приложите вывод `--version` двух версий терраформа доступных на вашем компьютере 
 или виртуальной машине.
+
+## Решение   
+
+Скачаем версию terraform 0.12:
+```
+wget https://releases.hashicorp.com/terraform/0.12.0/terraform_0.12.0_linux_amd64.zip
+unzip terraform_0.12.0_linux_amd64.zip
+```
+Создадим символьные ссылки на две версии программы:
+```
+root@lodyanyy:~# ln -s /usr/bin/terraform /usr/bin/terraform_1.1.7
+root@lodyanyy:~# ln -s /home/lodyanyy/netology/07-terraform-01-intro/terraform /usr/bin/terraform_0.12
+```
+Проверим версии:
+```
+lodyanyy@lodyanyy:~$ terraform_1.1.7 --version
+Terraform v1.1.7
+on linux_amd64
+lodyanyy@lodyanyy:~$ terraform_0.12 --version
+Terraform v0.12.0
+```
