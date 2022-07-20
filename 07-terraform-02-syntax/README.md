@@ -6,7 +6,7 @@
 
 ## Задача 2. Создание yandex_compute_instance через терраформ. Решение
 
-1. В каталоге `terraform`  создадим файл `main.tf` и `versions.tf`.
+1. В каталоге `terraform`  создадим файл [`main.tf`](https://github.com/lodyanyy/devops-netology/blob/main/07-terraform-02-syntax/terraform/main.tf) и [`versions.tf`](https://github.com/lodyanyy/devops-netology/blob/main/07-terraform-02-syntax/terraform/versions.tf).
 2. Удалим настройки предыдущих провайдеров терраформ:
 ```
 rm -rf .terraform*
@@ -174,6 +174,7 @@ Plan: 4 to add, 0 to change, 0 to destroy.
 ![image](https://user-images.githubusercontent.com/87534423/179987153-ec636085-ce37-48c6-a6ac-ceb039be3c4c.png)
 
 Ответ на вопрос: при помощи какого инструмента (из разобранных на прошлом занятии) можно создать свой образ ami?
-> это можно сделать при помощи Packer
-Ссылку на репозиторий с исходной конфигурацией терраформа
-> 
+> это можно сделать при помощи Packer  
+
+Ссылка на репозиторий с исходной конфигурацией терраформа
+> [Ссылка](https://github.com/lodyanyy/devops-netology/tree/main/07-terraform-02-syntax/terraform)
