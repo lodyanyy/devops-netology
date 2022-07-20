@@ -5,7 +5,7 @@ provider "yandex" {
 }
 
 resource "yandex_compute_image" "image" {
-  family = "centos-8"
+  source_family = "centos-8"
 }
 
 resource "yandex_compute_instance" "vm1" {
@@ -15,7 +15,7 @@ resource "yandex_compute_instance" "vm1" {
   allow_stopping_for_update = true
 
   resources {
-    cores  = 1
+    cores  = 2
     memory = 2
   }
 
