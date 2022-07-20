@@ -2,13 +2,51 @@
 
 ## Задача 1 (Вариант с Yandex.Cloud). Регистрация в ЯО и знакомство с основами.
 
- Регистрацию и первичное знакомство было в домашней работе 5.4 docker compose
+ Регистрацию и первичное знакомство было в домашней работе 5.4 docker compose. Используем переменную окружения, чтобы не пушить авторизационный токен в гит репозитарий.
 
 ## Задача 2. Создание yandex_compute_instance через терраформ. Решение
 
 1. В каталоге `terraform`  создадим файл `main.tf` и `versions.tf`.
+2. Удалим настройки предыдущих провайдеров терраформ:
+```
+rm -rf .terraform*
+```
+3. Инициализируем провайдеров, указанных в конфигурационных файлах командой terraform init (vpn включен):
+```
+lodyanyy@lodyanyy:~/netology/07-terraform-02-syntax/cloud-terraform$ terraform init
 
-Выполним terraform plan:
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding latest version of yandex-cloud/yandex...
+- Installing yandex-cloud/yandex v0.76.0...
+- Installed yandex-cloud/yandex v0.76.0 (self-signed, key ID ....)
+
+Partner and community providers are signed by their developers.
+If you'd like to know more about provider signing, you can read about it here:
+https://www.terraform.io/docs/cli/plugins/signing.html
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see                                                                                                                                                                                                  
+any changes that are required for your infrastructure. All Terraform commands                                                                                                                                                                                                  
+should now work.                                                                                                                                                                                                                                                               
+
+If you ever set or change modules or backend configuration for Terraform,                                                                                                                                                                                                      
+rerun this command to reinitialize your working directory. If you forget, other                                                                                                                                                                                                
+commands will detect it and remind you to do so if necessary.
+```
+4. Проверим конфигурацию командой terraform validate:
+```
+lodyanyy@lodyanyy:~/netology/07-terraform-02-syntax/cloud-terraform$ terraform validate
+Success! The configuration is valid.
+```
+5. Выполним terraform plan:
 
 ```
 lodyanyy@lodyanyy:~/netology/07-terraform-02-syntax/cloud-terraform$ terraform plan    
@@ -132,3 +170,10 @@ Terraform will perform the following actions:
 
 Plan: 4 to add, 0 to change, 0 to destroy.
 ```
+Выполнено без ошибок. После выполнения команды terraform apply, видим в ЯО запущенную машину:
+![image](https://user-images.githubusercontent.com/87534423/179987153-ec636085-ce37-48c6-a6ac-ceb039be3c4c.png)
+
+Ответ на вопрос: при помощи какого инструмента (из разобранных на прошлом занятии) можно создать свой образ ami?
+> это можно сделать при помощи Packer
+Ссылку на репозиторий с исходной конфигурацией терраформа
+> 
