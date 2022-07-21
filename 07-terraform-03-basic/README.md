@@ -28,5 +28,11 @@ dynamodb.
 
 В виде результата работы пришлите:
 * Вывод команды `terraform workspace list`.
+```
+lodyanyy@lodyanyy:~/netology/07-terraform-03-basic/cloud-terraform$ terraform workspace list
+  default
+* prod
+  stage
+```  
 * Вывод команды `terraform plan` для воркспейса `prod`.  
 ![image](https://user-images.githubusercontent.com/87534423/180242771-ed2bb004-c929-45c9-950e-95052d7f9cff.png)
