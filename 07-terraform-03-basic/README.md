@@ -36,3 +36,5 @@ lodyanyy@lodyanyy:~/netology/07-terraform-03-basic/cloud-terraform$ terraform wo
 ```  
 * Вывод команды `terraform plan` для воркспейса `prod`.  
 ![image](https://user-images.githubusercontent.com/87534423/180242771-ed2bb004-c929-45c9-950e-95052d7f9cff.png)
+![image](https://user-images.githubusercontent.com/87534423/180473356-39134ccd-10ac-4736-aafa-296b5039f5fe.png)
+![image](https://user-images.githubusercontent.com/87534423/180482653-53b6427b-2fb4-4ee1-bf9f-7791cf94f8a0.png)
