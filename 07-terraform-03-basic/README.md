@@ -10,6 +10,10 @@
 [здесь](https://www.terraform.io/docs/backends/types/s3.html).
 1. Зарегистрируйте бэкэнд в терраформ проекте как описано по ссылке выше. 
 
+## Решение 
+Создал бакет через консоль ЯО,
+роль и пользователя `$ yc resource-manager folder add-access-binding b1gem8suj95s5qrc1va1 --role editor --subject serviceAccount:ajepare9k00f1qq8pu83`
+
 
 ## Задача 2. Инициализируем проект и создаем воркспейсы. 
 
@@ -26,15 +30,18 @@ dynamodb.
 жизненного цикла `create_before_destroy = true` в один из рессурсов `aws_instance`.
 1. При желании поэкспериментируйте с другими параметрами и рессурсами.
 
-В виде результата работы пришлите:
-* Вывод команды [`terraform workspace list`](https://github.com/lodyanyy/devops-netology/blob/main/07-terraform-03-basic/terraform_plan.md).
+## Решение
+Для примерного повторения действий для Yandex Cloud создал [main.tf](https://github.com/lodyanyy/devops-netology/blob/main/07-terraform-03-basic/terraform/main.tf), где в зависимости от выбранного воркспейса создается ВМ с оригинальным навзванием и отличающимся количеством ядер и памятью.
+![image](https://user-images.githubusercontent.com/87534423/180473356-39134ccd-10ac-4736-aafa-296b5039f5fe.png)
+![image](https://user-images.githubusercontent.com/87534423/180482653-53b6427b-2fb4-4ee1-bf9f-7791cf94f8a0.png)
+
+* Вывод команды `terraform workspace list`
 ```
 lodyanyy@lodyanyy:~/netology/07-terraform-03-basic/cloud-terraform$ terraform workspace list
   default
 * prod
   stage
 ```  
-* Вывод команды `terraform plan` для воркспейса `prod`.  
-![image](https://user-images.githubusercontent.com/87534423/180242771-ed2bb004-c929-45c9-950e-95052d7f9cff.png)
-![image](https://user-images.githubusercontent.com/87534423/180473356-39134ccd-10ac-4736-aafa-296b5039f5fe.png)
-![image](https://user-images.githubusercontent.com/87534423/180482653-53b6427b-2fb4-4ee1-bf9f-7791cf94f8a0.png)
+* Вывод команды [`terraform plan`](https://github.com/lodyanyy/devops-netology/blob/main/07-terraform-03-basic/terraform_plan.md) для воркспейса `prod`.  
+
+
