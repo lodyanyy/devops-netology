@@ -27,7 +27,7 @@ dynamodb.
 1. При желании поэкспериментируйте с другими параметрами и рессурсами.
 
 В виде результата работы пришлите:
-* Вывод команды `terraform workspace list`.
+* Вывод команды (`terraform workspace list`)[https://github.com/lodyanyy/devops-netology/blob/main/07-terraform-03-basic/terraform_plan.md].
 ```
 lodyanyy@lodyanyy:~/netology/07-terraform-03-basic/cloud-terraform$ terraform workspace list
   default
