@@ -47,7 +47,7 @@ go version go1.18.4 linux/amd64
     }
     ```
     
-## Решение
+## Решение 3.1
 
 [Программа](https://github.com/lodyanyy/devops-netology/blob/main/07-terraform-05-golang/convers.go) для перевода метров в футы:
 
@@ -75,6 +75,24 @@ go version go1.18.4 linux/amd64
     ```
     x := []int{48,96,86,68,57,82,63,70,37,34,83,27,19,97,9,17,}
     ```
+    
+## Решение 3.2  
+```
+package main
+import "fmt"
+
+func main() {
+    x := []int{48,96,86,68,57,82,63,70,37,34,83,27,19,97,9,17}
+    min := x[0]
+    for _, value := range x {
+            if (value < min) {
+                    min = value
+            }
+    }
+    fmt.Println(min)
+}
+```
+
 3. Напишите программу, которая выводит числа от 1 до 100, которые делятся на 3. То есть `(3, 6, 9, …)`.
 
 В виде решения ссылку на код или сам код. 
