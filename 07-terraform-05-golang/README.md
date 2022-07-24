@@ -47,7 +47,7 @@ go version go1.18.4 linux/amd64
     }
     ```
     
-## Решение 3.1
+#### Решение 3.1
 
 [Программа](https://github.com/lodyanyy/devops-netology/blob/main/07-terraform-05-golang/convers.go) для перевода метров в футы:
 
@@ -71,12 +71,14 @@ go version go1.18.4 linux/amd64
 Результат:  
 ![image](https://user-images.githubusercontent.com/87534423/180663338-078b69a1-268d-45e9-b26f-ad22bfca249c.png)
 
+
 2. Напишите программу, которая найдет наименьший элемент в любом заданном списке, например:
     ```
     x := []int{48,96,86,68,57,82,63,70,37,34,83,27,19,97,9,17,}
     ```
     
-## Решение 3.2  
+#### Решение 3.2
+[minimal.go](https://github.com/lodyanyy/devops-netology/blob/main/07-terraform-05-golang/minimal.go)
 ```
 package main
 import "fmt"
@@ -92,13 +94,26 @@ func main() {
     fmt.Println(min)
 }
 ```
+![image](https://user-images.githubusercontent.com/87534423/180664149-c5d4a739-a208-46a8-86d5-98c75c25173a.png)
+
 
 3. Напишите программу, которая выводит числа от 1 до 100, которые делятся на 3. То есть `(3, 6, 9, …)`.
 
 В виде решения ссылку на код или сам код. 
 
-## Задача 4. Протестировать код (не обязательно).
+#### Решение 3.3  
+[dev3.go](https://github.com/lodyanyy/devops-netology/blob/main/07-terraform-05-golang/dev3.go)  
+```
+package main
 
-Создайте тесты для функций из предыдущего задания. 
+import "fmt"
 
----
+func main() {
+        for i:=1; i<=100; i++ {
+      if i % 3 == 0 {
+      fmt.Println(i)
+      }
+    }
+}
+```
+![image](https://user-images.githubusercontent.com/87534423/180664173-4bd3328b-9843-48bc-b5bc-017e5076f4af.png)
