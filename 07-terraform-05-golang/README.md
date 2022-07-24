@@ -49,7 +49,7 @@ go version go1.18.4 linux/amd64
     
 ## Решение
 
-Программа для перевода метров в футы:
+[Программа](https://github.com/lodyanyy/devops-netology/blob/main/07-terraform-05-golang/convers.go) для перевода метров в футы:
 
 ```
     package main
