@@ -150,7 +150,89 @@ centos7                    : ok=3    changed=0    unreachable=0    failed=0    s
 ubuntu                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
 ```
 #### 9. Посмотрите при помощи `ansible-doc` список плагинов для подключения. Выберите подходящий для работы на `control node`.  
+```
+lodyanyy@lodyanyy:~/netology/08-ansible-01-base/playbook$ ansible-doc -t connection -l
+buildah      Interact with an existing buildah container                                                      
+chroot       Interact with local chroot                                                                    
+docker       Run tasks in docker containers                                                                  
+funcd        Use funcd to connect to target                                                                  
+httpapi      Use httpapi to run command on network appliances                                             
+iocage       Run tasks in iocage jails                                                                      
+jail         Run tasks in jails                                                                         
+kubectl      Execute tasks in pods running on Kubernetes                                                 
+libvirt_lxc  Run tasks in lxc containers via libvirt                                                       
+local        execute on controller                                                                           
+lxc          Run tasks in lxc containers via lxc python library                                              
+lxd          Run tasks in lxc containers via lxc CLI                     
+napalm       Provides persistent connection using NAPALM                               
+netconf      Provides a persistent connection using the netconf protocol                                     
+network_cli  Use network_cli to run command on network appliances                                          
+oc           Execute tasks in pods running on OpenShift                        
+paramiko_ssh Run tasks via python ssh (paramiko)                                     
+persistent   Use a persistent unix socket for connection                 
+podman       Interact with an existing podman container                                                       
+psrp         Run tasks over Microsoft PowerShell Remoting Protocol                                               
+qubes        Interact with an existing QubesOS AppVM
+saltstack    Allow ansible to piggyback on salt minions
+ssh          connect via ssh client binaryvmware_tools Execute tasks inside a VM via VMware Tools
+winrm        Run tasks over Microsoft's WinRM                                                                                                            zone         Run tasks in a zone instance  
+```
+Подходящий для работы плагин 'local        execute on controller'  
 
-#### 10. В `prod.yml` добавьте новую группу хостов с именем  `local`, в ней разместите localhost с необходимым типом подключения.
+#### 10. В `prod.yml` добавьте новую группу хостов с именем  `local`, в ней разместите localhost с необходимым типом подключения.  
+```
+lodyanyy@lodyanyy:~/netology/08-ansible-01-base/playbook$ cat inventory/prod.yml
+---
+  el:
+    hosts:
+      centos7:
+        ansible_connection: docker
+  deb:
+    hosts:
+      ubuntu:
+        ansible_connection: docker
+  local:
+    hosts:
+      localhost:
+        ansible_connection: local
+```
 #### 11. Запустите playbook на окружении `prod.yml`. При запуске `ansible` должен запросить у вас пароль. Убедитесь что факты `some_fact` для каждого из хостов определены из верных `group_vars`.
+```
+lodyanyy@lodyanyy:~/netology/08-ansible-01-base/playbook$ ansible-playbook -i inventory/prod.yml site.yml --ask-vault-pass
+Vault password: 
+
+PLAY [Print os facts] *********************************************************************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ********************************************************************************************************************************************************************************************************************************************************
+ok: [ubuntu]
+ok: [centos7]
+ok: [localhost]
+
+TASK [Print OS] ***************************************************************************************************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "msg": "Ubuntu"
+}
+ok: [centos7] => {
+    "msg": "CentOS"
+}
+ok: [ubuntu] => {
+    "msg": "Ubuntu"
+}
+
+TASK [Print fact] *************************************************************************************************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "msg": "all default fact"
+}
+ok: [centos7] => {
+    "msg": "el default fact"
+}
+ok: [ubuntu] => {
+    "msg": "deb default fact"
+}
+
+PLAY RECAP ********************************************************************************************************************************************************************************************************************************************************************
+centos7                    : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
+```
 #### 12. Заполните `README.md` ответами на вопросы. Сделайте `git push` в ветку `master`. В ответе отправьте ссылку на ваш открытый репозиторий с изменённым `playbook` и заполненным `README.md`.
