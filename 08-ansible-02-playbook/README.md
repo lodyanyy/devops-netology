@@ -14,7 +14,7 @@ elasticsearch:
 ```
 2. Допишите playbook: нужно сделать ещё один play, который устанавливает и настраивает kibana.
 3. При создании tasks рекомендую использовать модули: `get_url`, `template`, `unarchive`, `file`.
-4. Tasks должны: скачать нужной версии дистрибутив, выполнить распаковку в выбранную директорию, сгенерировать конфигурацию с параметрами.
+4. Tasks должны: скачать нужной версии дистрибутив, выполнить распаковку в выбранную директорию, сгенерировать конфигурацию с параметрами.  
 Дописали site.yml:
 ```
 ---
@@ -127,7 +127,20 @@ elasticsearch:
         mode: 0755
       tags: kibana
 ```
-5. Запустите `ansible-lint site.yml` и исправьте ошибки, если они есть.
+5. Запустите `ansible-lint site.yml` и исправьте ошибки, если они есть.  
+Запустили `ansible-lint site.yml` - были лишние пробелы, исправили:  
+```
+lodyanyy@lodyanyy:~/netology/08-ansible-02-playbook/playbook$ ansible-lint site.yml
+[201] Trailing whitespace
+site.yml:76
+    - name: Upload tar.gz Kibana from remote URL 
+
+[201] Trailing whitespace
+site.yml:77
+      get_url: 
+
+lodyanyy@lodyanyy:~/netology/08-ansible-02-playbook/playbook$ ansible-lint site.yml
+```
 6. Попробуйте запустить playbook на этом окружении с флагом `--check`.
 7. Запустите playbook на `prod.yml` окружении с флагом `--diff`. Убедитесь, что изменения на системе произведены.
 8. Повторно запустите playbook с флагом `--diff` и убедитесь, что playbook идемпотентен.
