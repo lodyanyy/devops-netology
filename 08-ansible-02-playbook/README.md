@@ -2,7 +2,7 @@
 
 ## Основная часть
 1. Приготовьте свой собственный inventory файл `prod.yml`.  
-```
+```yaml
 ---
 elasticsearch:
   hosts:
@@ -10,7 +10,7 @@ elasticsearch:
       ansible_host: 172.20.0.2
       ansible_connection: ssh
       ansible_user: root
-      ansible_ssh_private_key_file: ssh/id_rsa
+      ansible_ssh_private_key_file: ~/.ssh/id_rsa
 ```
 2. Допишите playbook: нужно сделать ещё один play, который устанавливает и настраивает kibana.
 3. При создании tasks рекомендую использовать модули: `get_url`, `template`, `unarchive`, `file`.
@@ -390,5 +390,6 @@ ok: [centos]
 PLAY RECAP ********************************************************************************************************************************************************************************************************************************************************************
 centos                  : ok=13   changed=0    unreachable=0    failed=0    skipped=3    rescued=0    ignored=0    
 ```
-9. Подготовьте README.md файл по своему playbook. В нём должно быть описано: что делает playbook, какие у него есть параметры и теги.
+9. Подготовьте [README.md](https://github.com/lodyanyy/devops-netology/blob/main/08-ansible-02-playbook/playbook/README.md) файл по своему playbook. В нём должно быть описано: что делает playbook, какие у него есть параметры и теги.
 10. Готовый playbook выложите в свой репозиторий, в ответ предоставьте ссылку на него.
+   [Ссылка](https://github.com/lodyanyy/devops-netology/tree/main/08-ansible-02-playbook/playbook)
