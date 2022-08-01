@@ -1,0 +1,10 @@
+version: "3.6"
+
+services:
+  centos7:
+    image: jdeathe/centos-ssh:centos-7
+    container_name: centos
+    stdin_open: true
+    tty: true 
+    environment:
+      - SSH_SUDO=ALL=(ALL) NOPASSWD:ALL 
