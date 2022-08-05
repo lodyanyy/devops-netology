@@ -1,0 +1,4 @@
+---
+  java_jdk_version: 11.0.15
+  jdk_distr_type: local
+  jdk_distr_name: jdk-11.0.15_linux-x64_bin.tar.gz
