@@ -203,5 +203,7 @@ INFO     Pruning extra files from scenario ephemeral directory
 8. Добавили roles в `requirements.yml` в playbook.
 9. Переработали playbook на использование roles.
 10. Выложили playbook в репозиторий.
-11. Ссылки на оба репозитория с roles и одну ссылку на репозиторий с playbook:
-
+11. Ссылки на оба репозитория с roles и одну ссылку на репозиторий с playbook:  
+- [репозитарий с playbook](https://github.com/lodyanyy/devops-netology/tree/main/08-ansible-03-roles/playbook)
+- [репозитарий elastic-role](https://github.com/lodyanyy/devops-netology/tree/main/08-ansible-03-roles/playbook/roles/elastic-role)
+- [репозитарий kibana-role](https://github.com/lodyanyy/devops-netology/tree/main/08-ansible-03-roles/playbook/roles/kibana-role)
