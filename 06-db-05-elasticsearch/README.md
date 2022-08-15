@@ -185,7 +185,27 @@ Enter host password for user 'elastic':
 yellow open index2 79Onhys3QMSWFh929Azb4Q 2 1 0 0 450b 450b
 green  open index1 sJ_hKeG3RGOoFTndHeRa-A 1 0 0 0 225b 225b
 yellow open index3 lTgxc4X5RGmDMqOkfgCU6w 4 2 0 0 900b 900b
-```  
+``` 
+Получим состояние кластера elasticsearch, используя API:
+```bash
+{
+  "cluster_name" : "elasticsearch",
+  "status" : "yellow",
+  "timed_out" : false,
+  "number_of_nodes" : 1,
+  "number_of_data_nodes" : 1,
+  "active_primary_shards" : 10,
+  "active_shards" : 10,
+  "relocating_shards" : 0,
+  "initializing_shards" : 0,
+  "unassigned_shards" : 10,
+  "delayed_unassigned_shards" : 0,
+  "number_of_pending_tasks" : 0,
+  "number_of_in_flight_fetch" : 0,
+  "task_max_waiting_in_queue_millis" : 0,
+  "active_shards_percent_as_number" : 50.0
+}
+```
 У индексов в состоянии Yellow должны быть реплики, но так как в кластере только одна нода, разместиться этим репликам негде.
 
 Удалим все индексы:
@@ -225,4 +245,51 @@ $ curl -ku elastic  -X DELETE localhost:9200/index3
 Подсказки:
 - возможно вам понадобится доработать `elasticsearch.yml` в части директивы `path.repo` и перезапустить `elasticsearch`
 
-## Решение
+## Решение  
+Запрос API выглядит следующим образом:
+```
+curl -X PUT "localhost:9200/_snapshot/netology_backup?pretty" -H 'Content-Type: application/json' -d'
+{
+  "type": "fs",
+  "settings": {
+    "location": "/elasticsearch-8.3.3/snapshots"
+  }
+}'
+```
+Результат вызова:
+```
+{
+  "acknowledged" : true
+}
+```
+Создадим индекс test с 0 реплик и 1 шардом, создадим snapshot состояния кластера elasticsearch и приведем в ответе список индексов:
+```bash
+lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ curl -X PUT "localhost:9200/_snapshot/netology_backup/my_snapshot?pretty"
+{
+  "accepted" : true
+}
+```
+```
+health status index uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+green  open   test  7JLvEJfLTvekGBj7lPQlZA   1   0          0            0       225b           225b
+```
+
+Приведём в ответе список файлов в директории со snapshotами:
+```bash
+[elasticsearch@deb6abc1e22c elasticsearch]$ ll -a /elasticsearch-8.3.3/snapshots
+total 48
+drwxr-xr-x 1 elasticsearch elasticsearch  4096 Aug 15 14:49 .
+drwxr-xr-x 1 elasticsearch elasticsearch  4096 Aug 15 11:02 ..
+-rw-r--r-- 1 elasticsearch elasticsearch   844 Aug 15 14:49 index-0
+-rw-r--r-- 1 elasticsearch elasticsearch     8 Aug 15 14:49 index.latest
+drwxr-xr-x 4 elasticsearch elasticsearch  4096 Aug 15 14:49 indices
+-rw-r--r-- 1 elasticsearch elasticsearch 18331 Aug 15 14:49 meta-FPBQWtDQSP-F0IfgTcxO-g.dat
+-rw-r--r-- 1 elasticsearch elasticsearch   352 Aug 15 14:49 snap-FPBQWtDQSP-F0IfgTcxO-g.dat
+```
+Удалите индекс test и создайте индекс test-2. Приведите в ответе список индексов:
+```bash
+lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ curl -X GET 'localhost:9200/_cat/indices?v'
+health status index  uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+green  open   test-2 832VCx6FQ7uD_t3uanlDQg   1   0          0            0       225b           225b
+```
+
