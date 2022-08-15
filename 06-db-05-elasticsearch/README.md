@@ -139,7 +139,54 @@ lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ docker push lodyanyy/netolo
 При проектировании кластера elasticsearch нужно корректно рассчитывать количество реплик и шард,
 иначе возможна потеря данных индексов, вплоть до полной, при деградации системы.
 
-## Решение
+## Решение  
+Создадим три индекса, согласно заданию:
+```bash
+lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ curl -ku elastic -X PUT "localhost:9200/ind-1" -H 'Content-Type: application/json' -d'
+>  {
+>    "settings": {
+>      "index": {
+>        "number_of_shards": 1,
+>        "number_of_replicas": 0
+>      }
+>    }
+>  }
+>  '
+Enter host password for user 'elastic':
+lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ curl -ku elastic -X PUT "localhost:9200/ind-2" -H 'Content-Type: application/json' -d'
+ {
+   "settings": {
+     "index": {
+       "number_of_shards": 2,
+       "number_of_replicas": 1
+     }
+   }
+ }
+ '
+Enter host password for user 'elastic':
+{"acknowledged":true,"shards_acknowledged":true,"index":"ind-2"}
+lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ curl -ku elastic -X PUT "localhost:9200/ind-3" -H 'Content-Type: application/json' -d'
+ {
+   "settings": {
+     "index": {
+       "number_of_shards": 4,
+       "number_of_replicas": 2
+     }
+   }
+ }
+ '
+Enter host password for user 'elastic':
+{"acknowledged":true,"shards_acknowledged":true,"index":"ind-3"}
+```
+Получим список индексов и их статусов, используя API
+```bash
+lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ curl -ku elastic  localhost:9200/_cat/indices
+Enter host password for user 'elastic':
+yellow open ind-2 79Onhys3QMSWFh929Azb4Q 2 1 0 0 450b 450b
+green  open ind-1 sJ_hKeG3RGOoFTndHeRa-A 1 0 0 0 225b 225b
+yellow open ind-3 lTgxc4X5RGmDMqOkfgCU6w 4 2 0 0 900b 900b
+```  
+У индексов в состоянии Yellow должны быть реплики, но так как в кластере только одна нода, разместиться этим репликам негде.
 
 ## Задача 3
 
