@@ -292,4 +292,13 @@ lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ curl -X GET 'localhost:9200
 health status index  uuid                   pri rep docs.count docs.deleted store.size pri.store.size
 green  open   test-2 832VCx6FQ7uD_t3uanlDQg   1   0          0            0       225b           225b
 ```
-
+```bash
+lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ curl -X POST "localhost:9200/_snapshot/netology_backup/my_snapshot/_restore?pretty" -H 'Content-Type: application/json' -d'
+> {
+>   "indices": "*",
+>   "include_global_state": false
+> }'
+{
+  "accepted" : true
+}
+```
