@@ -32,6 +32,83 @@
 Далее мы будем работать с данным экземпляром elasticsearch.
 
 ## Решение
+Текст Dockerfile:  
+```yaml
+FROM centos:7
+
+ENV PATH=/usr/lib:/elasticsearch-8.3.3/jdk/bin:/elasticsearch-8.3.3/bin:$PATH
+
+RUN yum install -y perl-Digest-SHA && \
+    yum -y install wget && \
+    wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.3.3-linux-x86_64.tar.gz && \
+    wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.3.3-linux-x86_64.tar.gz.sha512 && \
+    shasum -a 512 elasticsearch-8.3.3-linux-x86_64.tar.gz.sha512 && \
+    tar -xzf elasticsearch-8.3.3-linux-x86_64.tar.gz && \
+    rm elasticsearch-8.3.3-linux-x86_64.tar.gz && \
+    rm elasticsearch-8.3.3-linux-x86_64.tar.gz.sha512
+
+ENV ES_HOME=/elasticsearch-8.3.3
+
+RUN groupadd -g 1000 elasticsearch && useradd elasticsearch -u 1000 -g 1000 && \
+    mkdir /var/lib/elasticsearch
+
+WORKDIR /var/lib/elasticsearch
+
+RUN set -ex && for path in data logs config config/scripts; do \
+        mkdir -p "$path"; \
+        chown -R elasticsearch:elasticsearch "$path"; \
+    done
+
+RUN mkdir /elasticsearch-8.3.3/snapshots && \
+    chown -R elasticsearch:elasticsearch /elasticsearch-8.3.3
+
+COPY logging.yml /elasticsearch-8.3.3/config/
+COPY elasticsearch.yml /elasticsearch-8.3.3/config/
+
+USER elasticsearch
+
+CMD ["elasticsearch"]
+
+EXPOSE 9200 9300
+```  
+
+```bash
+lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ sudo sysctl -w vm.max_map_count=262144
+lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ docker run --rm -d --name elastic -p 9200:9200 -p 9300:9300 bd97566be65d
+deb6abc1e22c58cacf04b175f7e3251f2a21f2a74eacc7ce27749d0504717132
+lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ docker ps -a
+CONTAINER ID   IMAGE          COMMAND           CREATED          STATUS          PORTS                                                                                  NAMES
+deb6abc1e22c   bd97566be65d   "elasticsearch"   40 seconds ago   Up 18 seconds   0.0.0.0:9200->9200/tcp, :::9200->9200/tcp, 0.0.0.0:9300->9300/tcp, :::9300->9300/tcp   elastic
+```  
+Ответ elasticsearch на запрос пути / в json виде:
+```json
+lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ curl -u elastic:changeme localhost:9200
+{
+  "name" : "netology_test",
+  "cluster_name" : "netology",
+  "cluster_uuid" : "d19yspLkQ6-3qTxWC38nyw",
+  "version" : {
+    "number" : "8.3.3",
+    "build_flavor" : "default",
+    "build_type" : "tar",
+    "build_hash" : "801fed82df74dbe537f89b71b098ccaff88d2c56",
+    "build_date" : "2022-07-23T19:30:09.227964828Z",
+    "build_snapshot" : false,
+    "lucene_version" : "9.2.0",
+    "minimum_wire_compatibility_version" : "7.17.0",
+    "minimum_index_compatibility_version" : "7.0.0"
+  },
+  "tagline" : "You Know, for Search"
+}
+```
+```bash
+lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ docker tag bd97566be65d lodyanyy/netology:6.5
+lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ docker login docker.io
+Authenticating with existing credentials...
+Login Succeeded
+lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ docker push lodyanyy/netology:6.5
+```
+[Ссылка на образ в репозитарии dockerhub](https://hub.docker.com/repository/docker/lodyanyy/netology)
 
 ## Задача 2
 
