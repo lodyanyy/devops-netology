@@ -292,6 +292,7 @@ lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ curl -X GET 'localhost:9200
 health status index  uuid                   pri rep docs.count docs.deleted store.size pri.store.size
 green  open   test-2 832VCx6FQ7uD_t3uanlDQg   1   0          0            0       225b           225b
 ```
+Восстановим состояние кластера elasticsearch из snapshot, созданного ранее:
 ```bash
 lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ curl -X POST "localhost:9200/_snapshot/netology_backup/my_snapshot/_restore?pretty" -H 'Content-Type: application/json' -d'
 > {
@@ -301,4 +302,10 @@ lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ curl -X POST "localhost:920
 {
   "accepted" : true
 }
+```
+Итоговый список индексов:
+```
+health status index  uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+green  open   test   Gel4KavgRsWZNkHar0gqhg   1   0          0            0       225b           225b
+green  open   test-2 832VCx6FQ7uD_t3uanlDQg   1   0          0            0       225b           225b
 ```
