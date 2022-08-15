@@ -108,7 +108,7 @@ Authenticating with existing credentials...
 Login Succeeded
 lodyanyy@lodyanyy:~/netology/06-db-05-elasticsearch$ docker push lodyanyy/netology:6.5
 ```
-[Ссылка на образ в репозитарии dockerhub](https://hub.docker.com/repository/docker/lodyanyy/netology)
+[Ссылка на образ в репозитарии dockerhub](https://hub.docker.com/r/lodyanyy/netology)
 
 ## Задача 2
 
