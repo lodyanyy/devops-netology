@@ -5,7 +5,10 @@
 
 \* Для получения ключа KEY.JSON делаем следующее:
  - создаем сервисный аккаунт в yandex cloud с ролью editor
- - генерируем ключ yc iam key create --service-account-name service-bot --output key.json
+``` 
+ $ yc resource-manager folder add-access-binding b1gem8suj95s5qrc1va1 --role editor --subject serviceAccount:ajea94q719pq7rsv223j
+```
+- генерируем ключ yc iam key create --service-account-name service-bot --output key.json
 ```
 lodyanyy@lodyanyy:~/netology/diplom/terraform$ yc iam key create --service-account-name service-bot --output key.json
 id: ajehd95r9n4lgtbt1qv7
