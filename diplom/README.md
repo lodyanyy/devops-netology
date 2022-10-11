@@ -882,4 +882,10 @@ changed: [lodyanyy.ru]
 
 PLAY RECAP ************************************************************************************************************************************************************
 lodyanyy.ru                : ok=40   changed=30   unreachable=0    failed=0    skipped=15   rescued=0    ignored=0
-```
+```  
+ </details>
+ 
+![LE](https://user-images.githubusercontent.com/87534423/195150894-9ea0c667-f6ce-4aeb-9098-a7b4cd1bedaa.jpg)  
+
+
+
