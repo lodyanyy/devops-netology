@@ -2496,4 +2496,161 @@ runner.lodyanyy.ru         : ok=16   changed=8    unreachable=0    failed=0    s
 ```
 </details>
 
+<details>
+<summary> ansible-playbook monitoring.yml -i hosts </summary> 
+
+```bash
+ubuntu@lodyanyynote:~/netology/diplom/ansible$ ansible-playbook monitoring.yml -i hosts
+
+PLAY [monitoring] *****************************************************************************************************************************************************
+
+TASK [Gathering Facts] ************************************************************************************************************************************************
+ok: [monitoring.lodyanyy.ru]
+
+TASK [update : Update apt repo and cache on all Debian/Ubuntu boxes] **************************************************************************************************
+ok: [monitoring.lodyanyy.ru]
+
+TASK [monitoring : Prepare For Install Prometheus] ********************************************************************************************************************
+included: /home/ubuntu/netology/diplom/ansible/roles/monitoring/tasks/prepare.yml for monitoring.lodyanyy.ru
+
+TASK [monitoring : Allow Ports] ***************************************************************************************************************************************
+skipping: [monitoring.lodyanyy.ru] => (item=9090/tcp) 
+skipping: [monitoring.lodyanyy.ru] => (item=9093/tcp) 
+skipping: [monitoring.lodyanyy.ru] => (item=9094/tcp) 
+skipping: [monitoring.lodyanyy.ru] => (item=9100/tcp) 
+skipping: [monitoring.lodyanyy.ru] => (item=9094/udp) 
+
+TASK [monitoring : Disable SELinux] ***********************************************************************************************************************************
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [monitoring : Stop SELinux] **************************************************************************************************************************************
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [monitoring : Allow TCP Ports] ***********************************************************************************************************************************
+changed: [monitoring.lodyanyy.ru] => (item=9090)
+changed: [monitoring.lodyanyy.ru] => (item=9093)
+changed: [monitoring.lodyanyy.ru] => (item=9094)
+changed: [monitoring.lodyanyy.ru] => (item=9100)
+
+TASK [monitoring : Allow UDP Ports] ***********************************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [monitoring : Install Prometheus] ********************************************************************************************************************************
+included: /home/ubuntu/netology/diplom/ansible/roles/monitoring/tasks/install_prometheus.yml for monitoring.lodyanyy.ru
+
+TASK [monitoring : Create User prometheus] ****************************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [monitoring : Create directories for prometheus] *****************************************************************************************************************
+changed: [monitoring.lodyanyy.ru] => (item=/tmp/prometheus)
+changed: [monitoring.lodyanyy.ru] => (item=/etc/prometheus)
+changed: [monitoring.lodyanyy.ru] => (item=/var/lib/prometheus)
+
+TASK [monitoring : Download And Unzipped Prometheus] ******************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [monitoring : Copy Bin Files From Unzipped to Prometheus] ********************************************************************************************************
+changed: [monitoring.lodyanyy.ru] => (item=prometheus)
+changed: [monitoring.lodyanyy.ru] => (item=promtool)
+
+TASK [monitoring : Copy Conf Files From Unzipped to Prometheus] *******************************************************************************************************
+changed: [monitoring.lodyanyy.ru] => (item=console_libraries)
+changed: [monitoring.lodyanyy.ru] => (item=consoles)
+changed: [monitoring.lodyanyy.ru] => (item=prometheus.yml)
+
+TASK [monitoring : Create File for Prometheus Systemd] ****************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [monitoring : copy config] ***************************************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [monitoring : copy alert] ****************************************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [monitoring : Systemctl Prometheus Start] ************************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [monitoring : Install Alertmanager] ******************************************************************************************************************************
+included: /home/ubuntu/netology/diplom/ansible/roles/monitoring/tasks/install_alertmanager.yml for monitoring.lodyanyy.ru
+
+TASK [monitoring : Create User Alertmanager] **************************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [monitoring : Create Directories For Alertmanager] ***************************************************************************************************************
+changed: [monitoring.lodyanyy.ru] => (item=/tmp/alertmanager)
+changed: [monitoring.lodyanyy.ru] => (item=/etc/alertmanager)
+changed: [monitoring.lodyanyy.ru] => (item=/var/lib/prometheus/alertmanager)
+
+TASK [monitoring : Download And Unzipped Alertmanager] ****************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [monitoring : Copy Bin Files From Unzipped to Alertmanager] ******************************************************************************************************
+changed: [monitoring.lodyanyy.ru] => (item=alertmanager)
+changed: [monitoring.lodyanyy.ru] => (item=amtool)
+
+TASK [monitoring : Copy Conf File From Unzipped to Alertmanager] ******************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [monitoring : Create File for Alertmanager Systemd] **************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [monitoring : Systemctl Alertmanager Start] **********************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [grafana : Allow Ports] ******************************************************************************************************************************************
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [grafana : Disable SELinux] **************************************************************************************************************************************
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [grafana : Stop SELinux] *****************************************************************************************************************************************
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [grafana : Add Repository] ***************************************************************************************************************************************
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [grafana : Install Grafana on RedHat Family] *********************************************************************************************************************
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [grafana : Allow TCP Ports] **************************************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [grafana : Import Grafana Apt Key] *******************************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [grafana : Add APT Repository] ***********************************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+TASK [grafana : Install Grafana on Debian Family] *********************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+RUNNING HANDLER [monitoring : systemd reload] *************************************************************************************************************************
+ok: [monitoring.lodyanyy.ru]
+
+RUNNING HANDLER [grafana : grafana systemd] ***************************************************************************************************************************
+changed: [monitoring.lodyanyy.ru]
+
+PLAY RECAP ************************************************************************************************************************************************************
+monitoring.lodyanyy.ru     : ok=29   changed=23   unreachable=0    failed=0    skipped=8    rescued=0    ignored=0 
+```
+</details>
+
+Заходим на grafana.lodyanyy.ru логин/пароль admin/admin и настраиваем data source prometheus:
+  
+![](https://user-images.githubusercontent.com/87534423/195178442-48ef3033-bfb5-4e91-9309-5c73dc16e13e.jpg)
+  
+Импортируем шаблоны дашбордов для графаны:
+  
+![](https://user-images.githubusercontent.com/87534423/195181214-1fb08ce1-6f49-4cd8-9a63-8485e924be30.jpg)
+
+Алертменеджер:
+  
+![](https://user-images.githubusercontent.com/87534423/195181356-5138ab28-536a-46ca-9a19-3ee331ad9d6d.jpg)
+  
+Прометеус:
+  
+![](https://user-images.githubusercontent.com/87534423/195181496-88609563-8cf5-4731-b451-00ad26e817f9.jpg)
+![](https://user-images.githubusercontent.com/87534423/195181548-7cd4a72d-3ec3-49ee-8654-414515565444.jpg)
+
+Репозиторий с terraform и c ansible
 
