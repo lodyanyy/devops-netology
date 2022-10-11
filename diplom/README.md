@@ -887,5 +887,238 @@ lodyanyy.ru                : ok=40   changed=30   unreachable=0    failed=0    s
  
 ![LE](https://user-images.githubusercontent.com/87534423/195150894-9ea0c667-f6ce-4aeb-9098-a7b4cd1bedaa.jpg)  
 
+## 4. Установка кластера MySQL  
 
+<details>
+<summary> ansible-playbook mysql.yml -i hosts </summary> 
+
+```bash
+ubuntu@lodyanyynote:~/netology/diplom/ansible$ ansible-playbook mysql.yml -i hosts
+
+PLAY [mysql] **********************************************************************************************************************************************************
+
+TASK [Gathering Facts] ************************************************************************************************************************************************
+ok: [db02.lodyanyy.ru]
+ok: [db01.lodyanyy.ru]
+
+TASK [update : Update apt repo and cache on all Debian/Ubuntu boxes] **************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : include_tasks] ******************************************************************************************************************************************
+included: /home/ubuntu/netology/diplom/ansible/roles/mysql/tasks/variables.yml for db01.lodyanyy.ru, db02.lodyanyy.ru
+
+TASK [mysql : Include OS-specific variables.] *************************************************************************************************************************
+ok: [db01.lodyanyy.ru] => (item=/home/ubuntu/netology/diplom/ansible/roles/mysql/vars/Debian.yml)
+ok: [db02.lodyanyy.ru] => (item=/home/ubuntu/netology/diplom/ansible/roles/mysql/vars/Debian.yml)
+
+TASK [mysql : Define mysql_packages.] *********************************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Define mysql_daemon.] ***********************************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Define mysql_slow_query_log_file.] **********************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Define mysql_log_error.] ********************************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Define mysql_syslog_tag.] *******************************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Define mysql_pid_file.] *********************************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Define mysql_config_file.] ******************************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Define mysql_config_include_dir.] ***********************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Define mysql_socket.] ***********************************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Define mysql_supports_innodb_large_prefix.] *************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : include_tasks] ******************************************************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+
+TASK [mysql : include_tasks] ******************************************************************************************************************************************
+included: /home/ubuntu/netology/diplom/ansible/roles/mysql/tasks/setup-Debian.yml for db01.lodyanyy.ru, db02.lodyanyy.ru
+
+TASK [mysql : Check if MySQL is already installed.] *******************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Update apt cache if MySQL is not yet installed.] ********************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+
+TASK [mysql : Ensure MySQL Python libraries are installed.] ***********************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Ensure MySQL packages are installed.] *******************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Ensure MySQL is stopped after initial install.] *********************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+
+TASK [mysql : Delete innodb log files created by apt package after initial install.] **********************************************************************************
+skipping: [db01.lodyanyy.ru] => (item=ib_logfile0) 
+skipping: [db01.lodyanyy.ru] => (item=ib_logfile1) 
+skipping: [db02.lodyanyy.ru] => (item=ib_logfile0) 
+skipping: [db02.lodyanyy.ru] => (item=ib_logfile1) 
+
+TASK [mysql : include_tasks] ******************************************************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+
+TASK [mysql : Check if MySQL packages were installed.] ****************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : include_tasks] ******************************************************************************************************************************************
+included: /home/ubuntu/netology/diplom/ansible/roles/mysql/tasks/configure.yml for db01.lodyanyy.ru, db02.lodyanyy.ru
+
+TASK [mysql : Get MySQL version.] *************************************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Copy my.cnf global MySQL configuration.] ****************************************************************************************************************
+ok: [db02.lodyanyy.ru]
+ok: [db01.lodyanyy.ru]
+
+TASK [mysql : Verify mysql include directory exists.] *****************************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+
+TASK [mysql : Copy my.cnf override files into include directory.] *****************************************************************************************************
+
+TASK [mysql : Create slow query log file (if configured).] ************************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+
+TASK [mysql : Create datadir if it does not exist] ********************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Set ownership on slow query log file (if configured).] **************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+
+TASK [mysql : Create error log file (if configured).] *****************************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+
+TASK [mysql : Set ownership on error log file (if configured).] *******************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+
+TASK [mysql : Ensure MySQL is started and enabled on boot.] ***********************************************************************************************************
+ok: [db02.lodyanyy.ru]
+ok: [db01.lodyanyy.ru]
+
+TASK [mysql : include_tasks] ******************************************************************************************************************************************
+included: /home/ubuntu/netology/diplom/ansible/roles/mysql/tasks/secure-installation.yml for db01.lodyanyy.ru, db02.lodyanyy.ru
+
+TASK [mysql : Ensure default user is present.] ************************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Copy user-my.cnf file with password credentials.] *******************************************************************************************************
+ok: [db02.lodyanyy.ru]
+ok: [db01.lodyanyy.ru]
+
+TASK [mysql : Disallow root login remotely] ***************************************************************************************************************************
+ok: [db02.lodyanyy.ru] => (item=DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'))
+ok: [db01.lodyanyy.ru] => (item=DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'))
+
+TASK [mysql : Get list of hosts for the root user.] *******************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Update MySQL root password for localhost root account (5.7.x).] *****************************************************************************************
+changed: [db01.lodyanyy.ru] => (item=localhost)
+changed: [db02.lodyanyy.ru] => (item=localhost)
+
+TASK [mysql : Update MySQL root password for localhost root account (< 5.7.x).] ***************************************************************************************
+skipping: [db01.lodyanyy.ru] => (item=localhost) 
+skipping: [db02.lodyanyy.ru] => (item=localhost) 
+
+TASK [mysql : Copy .my.cnf file with root password credentials.] ******************************************************************************************************
+ok: [db02.lodyanyy.ru]
+ok: [db01.lodyanyy.ru]
+
+TASK [mysql : Get list of hosts for the anonymous user.] **************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Remove anonymous MySQL users.] **************************************************************************************************************************
+
+TASK [mysql : Remove MySQL test database.] ****************************************************************************************************************************
+ok: [db02.lodyanyy.ru]
+ok: [db01.lodyanyy.ru]
+
+TASK [mysql : include_tasks] ******************************************************************************************************************************************
+included: /home/ubuntu/netology/diplom/ansible/roles/mysql/tasks/databases.yml for db01.lodyanyy.ru, db02.lodyanyy.ru
+
+TASK [mysql : Ensure MySQL databases are present.] ********************************************************************************************************************
+ok: [db01.lodyanyy.ru] => (item={'name': 'wordpress', 'collation': 'utf8_general_ci', 'encoding': 'utf8', 'replicate': 1})
+ok: [db02.lodyanyy.ru] => (item={'name': 'wordpress', 'collation': 'utf8_general_ci', 'encoding': 'utf8', 'replicate': 1})
+
+TASK [mysql : include_tasks] ******************************************************************************************************************************************
+included: /home/ubuntu/netology/diplom/ansible/roles/mysql/tasks/users.yml for db01.lodyanyy.ru, db02.lodyanyy.ru
+
+TASK [mysql : Ensure MySQL users are present.] ************************************************************************************************************************
+ok: [db01.lodyanyy.ru] => (item=None)
+ok: [db02.lodyanyy.ru] => (item=None)
+ok: [db02.lodyanyy.ru] => (item=None)
+changed: [db01.lodyanyy.ru] => (item=None)
+ok: [db02.lodyanyy.ru]
+changed: [db01.lodyanyy.ru]
+
+TASK [mysql : include_tasks] ******************************************************************************************************************************************
+included: /home/ubuntu/netology/diplom/ansible/roles/mysql/tasks/replication.yml for db01.lodyanyy.ru, db02.lodyanyy.ru
+
+TASK [mysql : Ensure replication user exists on master.] **************************************************************************************************************
+skipping: [db02.lodyanyy.ru]
+changed: [db01.lodyanyy.ru]
+
+TASK [mysql : Check slave replication status.] ************************************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+
+TASK [mysql : Check master replication status.] ***********************************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru -> db01.lodyanyy.ru]
+
+TASK [mysql : Configure replication on the slave.] ********************************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+changed: [db02.lodyanyy.ru]
+
+TASK [mysql : Start replication.] *************************************************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+changed: [db02.lodyanyy.ru]
+
+PLAY RECAP ************************************************************************************************************************************************************
+db01.lodyanyy.ru           : ok=39   changed=3    unreachable=0    failed=0    skipped=17   rescued=0    ignored=0   
+db02.lodyanyy.ru           : ok=42   changed=3    unreachable=0    failed=0    skipped=14   rescued=0    ignored=0
+```
+</details>
 
