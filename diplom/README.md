@@ -2652,5 +2652,5 @@ monitoring.lodyanyy.ru     : ok=29   changed=23   unreachable=0    failed=0    s
 ![](https://user-images.githubusercontent.com/87534423/195181496-88609563-8cf5-4731-b451-00ad26e817f9.jpg)
 ![](https://user-images.githubusercontent.com/87534423/195181548-7cd4a72d-3ec3-49ee-8654-414515565444.jpg)
 
-Репозиторий с terraform и c ansible
+Репозиторий с [terraform](https://github.com/lodyanyy/devops-netology/tree/main/diplom/terraform) и c [ansible](https://github.com/lodyanyy/devops-netology/tree/main/diplom/ansible)
 
