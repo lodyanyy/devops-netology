@@ -675,6 +675,211 @@ yandex_compute_instance.runner: Still creating... [30s elapsed]
 yandex_compute_instance.runner: Creation complete after 30s [id=fhmthrr1du8en0ld1vg5]
 
 ```  
-</details>
+</details> 
+Видим созданные виртуальные машины в Yandex Cloud  
+
+![](https://user-images.githubusercontent.com/87534423/195144494-34a43de2-eaf0-41a3-bee5-d65854e1e5af.jpg)
+
+
 
 ## 3. Установка Nginx И LetsEncrypt
+
+<details>
+<summary> ansible-playbook main.yml -i hosts </summary> 
+
+```bash
+ubuntu@lodyanyynote:~/netology/diplom/ansible$ ansible-playbook main.yml -i hosts
+[DEPRECATION WARNING]: "include" is deprecated, use include_tasks/import_tasks instead. This feature will be removed in version 2.16. Deprecation warnings can be 
+disabled by setting deprecation_warnings=False in ansible.cfg.
+
+PLAY [front] **********************************************************************************************************************************************************
+
+TASK [Gathering Facts] ************************************************************************************************************************************************
+ok: [lodyanyy.ru]
+
+TASK [update : Update apt repo and cache on all Debian/Ubuntu boxes] **************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : python-simplejson] **************************************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Upgrade system] *****************************************************************************************************************************
+ok: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Install nginx] ******************************************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : install letsencrypt] ************************************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : create letsencrypt directory] ***************************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Remove default nginx config] ****************************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Install system nginx config] ****************************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Install nginx site for letsencrypt requests] ************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Reload nginx to activate letsencrypt site] **************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Create letsencrypt certificate front] *******************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Create letsencrypt certificate gitlab] ******************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Create letsencrypt certificate grafana] *****************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Create letsencrypt certificate prometheus] **************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Create letsencrypt certificate alertmanager] ************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Generate dhparams] **************************************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Install nginx site for specified site] ******************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Reload nginx to activate specified site] ****************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [nginx_letsencrypt : Add letsencrypt cronjob for cert renewal] ***************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [proxy : install privoxy] ****************************************************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [proxy : configure privoxy] **************************************************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [proxy : start privoxy] ******************************************************************************************************************************************
+ok: [lodyanyy.ru]
+
+TASK [node_exporter : Assert usage of systemd as an init system] ******************************************************************************************************
+ok: [lodyanyy.ru] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [node_exporter : Get systemd version] ****************************************************************************************************************************
+ok: [lodyanyy.ru]
+
+TASK [node_exporter : Set systemd version fact] ***********************************************************************************************************************
+ok: [lodyanyy.ru]
+
+TASK [node_exporter : Naive assertion of proper listen address] *******************************************************************************************************
+ok: [lodyanyy.ru] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [node_exporter : Assert collectors are not both disabled and enabled at the same time] ***************************************************************************
+
+TASK [node_exporter : Assert that TLS key and cert path are set] ******************************************************************************************************
+skipping: [lodyanyy.ru]
+
+TASK [node_exporter : Check existence of TLS cert file] ***************************************************************************************************************
+skipping: [lodyanyy.ru]
+
+TASK [node_exporter : Check existence of TLS key file] ****************************************************************************************************************
+skipping: [lodyanyy.ru]
+
+TASK [node_exporter : Assert that TLS key and cert are present] *******************************************************************************************************
+skipping: [lodyanyy.ru]
+
+TASK [node_exporter : Check if node_exporter is installed] ************************************************************************************************************
+ok: [lodyanyy.ru]
+
+TASK [node_exporter : Gather currently installed node_exporter version (if any)] **************************************************************************************
+skipping: [lodyanyy.ru]
+
+TASK [node_exporter : Get latest release] *****************************************************************************************************************************
+skipping: [lodyanyy.ru]
+
+TASK [node_exporter : Set node_exporter version to {{ _latest_release.json.tag_name[1:] }}] ***************************************************************************
+skipping: [lodyanyy.ru]
+
+TASK [node_exporter : Get checksum list from github] ******************************************************************************************************************
+ok: [lodyanyy.ru -> localhost]
+
+TASK [node_exporter : Get checksum for amd64 architecture] ************************************************************************************************************
+skipping: [lodyanyy.ru] => (item=3919266f1dbad5f7e5ce7b4207057fc253a8322f570607cc0f3e73f4a53338e3  node_exporter-1.1.2.darwin-amd64.tar.gz) 
+skipping: [lodyanyy.ru] => (item=5b0195e203dedd3a8973cd1894a55097554a4af6d8f4f0614c2c67d6670ea8ae  node_exporter-1.1.2.linux-386.tar.gz) 
+ok: [lodyanyy.ru -> localhost] => (item=8c1f6a317457a658e0ae68ad710f6b4098db2cad10204649b51e3c043aa3e70d  node_exporter-1.1.2.linux-amd64.tar.gz)
+skipping: [lodyanyy.ru] => (item=eb5e7d16f18bb3272d0d832986fc8ac6cb0b6c42d487c94e15dabb10feae8e04  node_exporter-1.1.2.linux-arm64.tar.gz) 
+skipping: [lodyanyy.ru] => (item=41892e451e80160491a1cc7bbe6bccd6cb842ae8340e1bc6e32f72cefb1aee80  node_exporter-1.1.2.linux-armv5.tar.gz) 
+skipping: [lodyanyy.ru] => (item=1cc1bf4cacb84d6c228d9ce8045b5b00b73afd954046f7b2add428a04d14daee  node_exporter-1.1.2.linux-armv6.tar.gz) 
+skipping: [lodyanyy.ru] => (item=a9fe816eb7b976b1587d6d654c437f7d78349f70686fa22ae33e94fe84281af2  node_exporter-1.1.2.linux-armv7.tar.gz) 
+skipping: [lodyanyy.ru] => (item=a99ab2cdc62db25ff01d184e21ad433e3949cd791fc2c80b6bacc6b90d5a62c2  node_exporter-1.1.2.linux-mips.tar.gz) 
+skipping: [lodyanyy.ru] => (item=22d9c2a5363502c79e0645ba02eafd9561b33d1e0e819ce4df3fcf7dc96e3792  node_exporter-1.1.2.linux-mips64.tar.gz) 
+skipping: [lodyanyy.ru] => (item=a66b70690c3c4fff953905a041c74834f96be85a806e74a1cc925e607ef50a26  node_exporter-1.1.2.linux-mips64le.tar.gz) 
+skipping: [lodyanyy.ru] => (item=f7fba791cbc758b021d0e9a2400c82d1f29337e568ab00edc84b053ca467ea3c  node_exporter-1.1.2.linux-mipsle.tar.gz) 
+skipping: [lodyanyy.ru] => (item=294c0b05dff4f368512449de7268e3f06de679a9343e9885044adc702865080b  node_exporter-1.1.2.linux-ppc64.tar.gz) 
+skipping: [lodyanyy.ru] => (item=d1d201b16d757980db654bb9e448ab0c81ca4c2715243c3fa4305bef5967bd41  node_exporter-1.1.2.linux-ppc64le.tar.gz) 
+skipping: [lodyanyy.ru] => (item=6007420f425d08626c05de2dbe0e8bb785a16bba1b02c01cb06d37d7fab3bc97  node_exporter-1.1.2.linux-s390x.tar.gz) 
+skipping: [lodyanyy.ru] => (item=0596e9c1cc358e6fcc60cb83f0d1ba9a37ccee11eca035429c9791c0beb04389  node_exporter-1.1.2.netbsd-386.tar.gz) 
+skipping: [lodyanyy.ru] => (item=46c964efd336f0e35f62c739ce9edf5409911e7652604e411c9b684eb9c48386  node_exporter-1.1.2.netbsd-amd64.tar.gz) 
+skipping: [lodyanyy.ru] => (item=d81f86f57a4ed167a4062aa47f8a70b35c146c86bc8e40924c9d1fc3644ec8e6  node_exporter-1.1.2.openbsd-amd64.tar.gz) 
+
+TASK [node_exporter : Create the node_exporter group] *****************************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [node_exporter : Create the node_exporter user] ******************************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [node_exporter : Download node_exporter binary to local folder] **************************************************************************************************
+changed: [lodyanyy.ru -> localhost]
+
+TASK [node_exporter : Unpack node_exporter binary] ********************************************************************************************************************
+changed: [lodyanyy.ru -> localhost]
+
+TASK [node_exporter : Propagate node_exporter binaries] ***************************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [node_exporter : propagate locally distributed node_exporter binary] *********************************************************************************************
+skipping: [lodyanyy.ru]
+
+TASK [node_exporter : Install selinux python packages [RHEL]] *********************************************************************************************************
+skipping: [lodyanyy.ru]
+
+TASK [node_exporter : Install selinux python packages [Fedora]] *******************************************************************************************************
+skipping: [lodyanyy.ru]
+
+TASK [node_exporter : Install selinux python packages [clearlinux]] ***************************************************************************************************
+skipping: [lodyanyy.ru]
+
+TASK [node_exporter : Copy the node_exporter systemd service file] ****************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [node_exporter : Create node_exporter config directory] **********************************************************************************************************
+skipping: [lodyanyy.ru]
+
+TASK [node_exporter : Copy the node_exporter config file] *************************************************************************************************************
+skipping: [lodyanyy.ru]
+
+TASK [node_exporter : Create textfile collector dir] ******************************************************************************************************************
+changed: [lodyanyy.ru]
+
+TASK [node_exporter : Allow node_exporter port in SELinux on RedHat OS family] ****************************************************************************************
+skipping: [lodyanyy.ru]
+
+TASK [node_exporter : Ensure Node Exporter is enabled on boot] ********************************************************************************************************
+changed: [lodyanyy.ru]
+
+RUNNING HANDLER [proxy : restart privoxy] *****************************************************************************************************************************
+changed: [lodyanyy.ru]
+
+RUNNING HANDLER [node_exporter : restart node_exporter] ***************************************************************************************************************
+changed: [lodyanyy.ru]
+
+PLAY RECAP ************************************************************************************************************************************************************
+lodyanyy.ru                : ok=40   changed=30   unreachable=0    failed=0    skipped=15   rescued=0    ignored=0
+```
