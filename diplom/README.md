@@ -2076,6 +2076,424 @@ runner.lodyanyy.ru         : ok=83   changed=20   unreachable=0    failed=0    s
 
 Добавляем переменную ssh_key:
   
-![gitlab2](https://user-images.githubusercontent.com/87534423/195170419-3bec94fe-7ceb-4501-8408-af1b959d1fb5.jpg)
+![](https://user-images.githubusercontent.com/87534423/195170419-3bec94fe-7ceb-4501-8408-af1b959d1fb5.jpg)
 
+Для автоматического деплоя на виртуальную машину app.lodyanyy.ru при любом коммите в репозитарий создан следующий пайплайн:
+```yml
+before_script:
+  - eval $(ssh-agent -s)
+  - echo "$ssh_key" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+
+stages:         
+  - deploy
+
+deploy-job:      
+  stage: deploy
+  script: 
+    - echo "Deploying application..." 
+    - ssh -o StrictHostKeyChecking=no ubuntu@app.lodyanyy.ru sudo chown ubuntu /var/www/wordpress/ -R
+    - scp -o StrictHostKeyChecking=no -r ./* ubuntu@app.lodyanyy.ru:/var/www/wordpress/
+    - ssh -o StrictHostKeyChecking=no ubuntu@app.lodyanyy.ru rm -rf /var/www/wordpress/.git
+    - ssh -o StrictHostKeyChecking=no ubuntu@app.lodyanyy.ru sudo chown www-data /var/www/wordpress/ -R
+```
+![](https://user-images.githubusercontent.com/87534423/195174199-26b59b17-d588-43a3-807b-4e73120d5393.jpg)
+![](https://user-images.githubusercontent.com/87534423/195174382-e8077510-2c76-46d6-a2de-d1ca9f890ac1.jpg)
   
+## 7. Установка Prometheus, Alert Manager, Node Exporter и Grafana
+  
+<details>
+<summary> ansible-playbook node_exporter.yml -i hosts </summary> 
+
+```bash
+ubuntu@lodyanyynote:~/netology/diplom/ansible$ ansible-playbook node_exporter.yml -i hosts
+
+PLAY [mysql app gitlab runner monitoring] *****************************************************************************************************************************
+
+TASK [Gathering Facts] ************************************************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [app.lodyanyy.ru]
+ok: [runner.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+ok: [gitlab.lodyanyy.ru]
+ok: [monitoring.lodyanyy.ru]
+
+TASK [update : Update apt repo and cache on all Debian/Ubuntu boxes] **************************************************************************************************
+changed: [db01.lodyanyy.ru]
+changed: [app.lodyanyy.ru]
+changed: [db02.lodyanyy.ru]
+changed: [runner.lodyanyy.ru]
+changed: [gitlab.lodyanyy.ru]
+changed: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Assert usage of systemd as an init system] ******************************************************************************************************
+ok: [db01.lodyanyy.ru] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+ok: [db02.lodyanyy.ru] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+ok: [app.lodyanyy.ru] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+ok: [gitlab.lodyanyy.ru] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+ok: [runner.lodyanyy.ru] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+ok: [monitoring.lodyanyy.ru] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [node_exporter : Get systemd version] ****************************************************************************************************************************
+ok: [runner.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+ok: [app.lodyanyy.ru]
+ok: [db01.lodyanyy.ru]
+ok: [gitlab.lodyanyy.ru]
+ok: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Set systemd version fact] ***********************************************************************************************************************
+ok: [db01.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+ok: [app.lodyanyy.ru]
+ok: [gitlab.lodyanyy.ru]
+ok: [runner.lodyanyy.ru]
+ok: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Naive assertion of proper listen address] *******************************************************************************************************
+ok: [db01.lodyanyy.ru] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+ok: [db02.lodyanyy.ru] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+ok: [app.lodyanyy.ru] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+ok: [gitlab.lodyanyy.ru] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+ok: [runner.lodyanyy.ru] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+ok: [monitoring.lodyanyy.ru] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [node_exporter : Assert collectors are not both disabled and enabled at the same time] ***************************************************************************
+
+TASK [node_exporter : Assert that TLS key and cert path are set] ******************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+skipping: [gitlab.lodyanyy.ru]
+skipping: [app.lodyanyy.ru]
+skipping: [runner.lodyanyy.ru]
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Check existence of TLS cert file] ***************************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+skipping: [app.lodyanyy.ru]
+skipping: [gitlab.lodyanyy.ru]
+skipping: [runner.lodyanyy.ru]
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Check existence of TLS key file] ****************************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+skipping: [app.lodyanyy.ru]
+skipping: [runner.lodyanyy.ru]
+skipping: [gitlab.lodyanyy.ru]
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Assert that TLS key and cert are present] *******************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+skipping: [app.lodyanyy.ru]
+skipping: [gitlab.lodyanyy.ru]
+skipping: [runner.lodyanyy.ru]
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Check if node_exporter is installed] ************************************************************************************************************
+ok: [runner.lodyanyy.ru]
+ok: [db01.lodyanyy.ru]
+ok: [app.lodyanyy.ru]
+ok: [gitlab.lodyanyy.ru]
+ok: [db02.lodyanyy.ru]
+ok: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Gather currently installed node_exporter version (if any)] **************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+skipping: [app.lodyanyy.ru]
+skipping: [gitlab.lodyanyy.ru]
+skipping: [runner.lodyanyy.ru]
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Get latest release] *****************************************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+
+TASK [node_exporter : Set node_exporter version to {{ _latest_release.json.tag_name[1:] }}] ***************************************************************************
+skipping: [db01.lodyanyy.ru]
+
+TASK [node_exporter : Get checksum list from github] ******************************************************************************************************************
+ok: [db01.lodyanyy.ru -> localhost]
+
+TASK [node_exporter : Get checksum for amd64 architecture] ************************************************************************************************************
+skipping: [db01.lodyanyy.ru] => (item=3919266f1dbad5f7e5ce7b4207057fc253a8322f570607cc0f3e73f4a53338e3  node_exporter-1.1.2.darwin-amd64.tar.gz) 
+skipping: [db01.lodyanyy.ru] => (item=5b0195e203dedd3a8973cd1894a55097554a4af6d8f4f0614c2c67d6670ea8ae  node_exporter-1.1.2.linux-386.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=3919266f1dbad5f7e5ce7b4207057fc253a8322f570607cc0f3e73f4a53338e3  node_exporter-1.1.2.darwin-amd64.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=5b0195e203dedd3a8973cd1894a55097554a4af6d8f4f0614c2c67d6670ea8ae  node_exporter-1.1.2.linux-386.tar.gz) 
+skipping: [app.lodyanyy.ru] => (item=3919266f1dbad5f7e5ce7b4207057fc253a8322f570607cc0f3e73f4a53338e3  node_exporter-1.1.2.darwin-amd64.tar.gz) 
+ok: [db01.lodyanyy.ru -> localhost] => (item=8c1f6a317457a658e0ae68ad710f6b4098db2cad10204649b51e3c043aa3e70d  node_exporter-1.1.2.linux-amd64.tar.gz)
+skipping: [app.lodyanyy.ru] => (item=5b0195e203dedd3a8973cd1894a55097554a4af6d8f4f0614c2c67d6670ea8ae  node_exporter-1.1.2.linux-386.tar.gz) 
+ok: [db02.lodyanyy.ru -> localhost] => (item=8c1f6a317457a658e0ae68ad710f6b4098db2cad10204649b51e3c043aa3e70d  node_exporter-1.1.2.linux-amd64.tar.gz)
+skipping: [db01.lodyanyy.ru] => (item=eb5e7d16f18bb3272d0d832986fc8ac6cb0b6c42d487c94e15dabb10feae8e04  node_exporter-1.1.2.linux-arm64.tar.gz) 
+ok: [app.lodyanyy.ru -> localhost] => (item=8c1f6a317457a658e0ae68ad710f6b4098db2cad10204649b51e3c043aa3e70d  node_exporter-1.1.2.linux-amd64.tar.gz)
+skipping: [app.lodyanyy.ru] => (item=eb5e7d16f18bb3272d0d832986fc8ac6cb0b6c42d487c94e15dabb10feae8e04  node_exporter-1.1.2.linux-arm64.tar.gz) 
+skipping: [db01.lodyanyy.ru] => (item=41892e451e80160491a1cc7bbe6bccd6cb842ae8340e1bc6e32f72cefb1aee80  node_exporter-1.1.2.linux-armv5.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=eb5e7d16f18bb3272d0d832986fc8ac6cb0b6c42d487c94e15dabb10feae8e04  node_exporter-1.1.2.linux-arm64.tar.gz) 
+skipping: [app.lodyanyy.ru] => (item=41892e451e80160491a1cc7bbe6bccd6cb842ae8340e1bc6e32f72cefb1aee80  node_exporter-1.1.2.linux-armv5.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=3919266f1dbad5f7e5ce7b4207057fc253a8322f570607cc0f3e73f4a53338e3  node_exporter-1.1.2.darwin-amd64.tar.gz) 
+skipping: [runner.lodyanyy.ru] => (item=3919266f1dbad5f7e5ce7b4207057fc253a8322f570607cc0f3e73f4a53338e3  node_exporter-1.1.2.darwin-amd64.tar.gz) 
+skipping: [runner.lodyanyy.ru] => (item=5b0195e203dedd3a8973cd1894a55097554a4af6d8f4f0614c2c67d6670ea8ae  node_exporter-1.1.2.linux-386.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=41892e451e80160491a1cc7bbe6bccd6cb842ae8340e1bc6e32f72cefb1aee80  node_exporter-1.1.2.linux-armv5.tar.gz) 
+skipping: [app.lodyanyy.ru] => (item=1cc1bf4cacb84d6c228d9ce8045b5b00b73afd954046f7b2add428a04d14daee  node_exporter-1.1.2.linux-armv6.tar.gz) 
+skipping: [db01.lodyanyy.ru] => (item=1cc1bf4cacb84d6c228d9ce8045b5b00b73afd954046f7b2add428a04d14daee  node_exporter-1.1.2.linux-armv6.tar.gz) 
+ok: [runner.lodyanyy.ru -> localhost] => (item=8c1f6a317457a658e0ae68ad710f6b4098db2cad10204649b51e3c043aa3e70d  node_exporter-1.1.2.linux-amd64.tar.gz)
+skipping: [runner.lodyanyy.ru] => (item=eb5e7d16f18bb3272d0d832986fc8ac6cb0b6c42d487c94e15dabb10feae8e04  node_exporter-1.1.2.linux-arm64.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=5b0195e203dedd3a8973cd1894a55097554a4af6d8f4f0614c2c67d6670ea8ae  node_exporter-1.1.2.linux-386.tar.gz) 
+skipping: [db01.lodyanyy.ru] => (item=a9fe816eb7b976b1587d6d654c437f7d78349f70686fa22ae33e94fe84281af2  node_exporter-1.1.2.linux-armv7.tar.gz) 
+skipping: [app.lodyanyy.ru] => (item=a9fe816eb7b976b1587d6d654c437f7d78349f70686fa22ae33e94fe84281af2  node_exporter-1.1.2.linux-armv7.tar.gz) 
+skipping: [runner.lodyanyy.ru] => (item=41892e451e80160491a1cc7bbe6bccd6cb842ae8340e1bc6e32f72cefb1aee80  node_exporter-1.1.2.linux-armv5.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=1cc1bf4cacb84d6c228d9ce8045b5b00b73afd954046f7b2add428a04d14daee  node_exporter-1.1.2.linux-armv6.tar.gz) 
+skipping: [runner.lodyanyy.ru] => (item=1cc1bf4cacb84d6c228d9ce8045b5b00b73afd954046f7b2add428a04d14daee  node_exporter-1.1.2.linux-armv6.tar.gz) 
+skipping: [runner.lodyanyy.ru] => (item=a9fe816eb7b976b1587d6d654c437f7d78349f70686fa22ae33e94fe84281af2  node_exporter-1.1.2.linux-armv7.tar.gz) 
+skipping: [db01.lodyanyy.ru] => (item=a99ab2cdc62db25ff01d184e21ad433e3949cd791fc2c80b6bacc6b90d5a62c2  node_exporter-1.1.2.linux-mips.tar.gz) 
+skipping: [app.lodyanyy.ru] => (item=a99ab2cdc62db25ff01d184e21ad433e3949cd791fc2c80b6bacc6b90d5a62c2  node_exporter-1.1.2.linux-mips.tar.gz) 
+ok: [gitlab.lodyanyy.ru -> localhost] => (item=8c1f6a317457a658e0ae68ad710f6b4098db2cad10204649b51e3c043aa3e70d  node_exporter-1.1.2.linux-amd64.tar.gz)
+skipping: [runner.lodyanyy.ru] => (item=a99ab2cdc62db25ff01d184e21ad433e3949cd791fc2c80b6bacc6b90d5a62c2  node_exporter-1.1.2.linux-mips.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=a9fe816eb7b976b1587d6d654c437f7d78349f70686fa22ae33e94fe84281af2  node_exporter-1.1.2.linux-armv7.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=a99ab2cdc62db25ff01d184e21ad433e3949cd791fc2c80b6bacc6b90d5a62c2  node_exporter-1.1.2.linux-mips.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=eb5e7d16f18bb3272d0d832986fc8ac6cb0b6c42d487c94e15dabb10feae8e04  node_exporter-1.1.2.linux-arm64.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=22d9c2a5363502c79e0645ba02eafd9561b33d1e0e819ce4df3fcf7dc96e3792  node_exporter-1.1.2.linux-mips64.tar.gz) 
+skipping: [runner.lodyanyy.ru] => (item=22d9c2a5363502c79e0645ba02eafd9561b33d1e0e819ce4df3fcf7dc96e3792  node_exporter-1.1.2.linux-mips64.tar.gz) 
+skipping: [app.lodyanyy.ru] => (item=22d9c2a5363502c79e0645ba02eafd9561b33d1e0e819ce4df3fcf7dc96e3792  node_exporter-1.1.2.linux-mips64.tar.gz) 
+skipping: [db01.lodyanyy.ru] => (item=22d9c2a5363502c79e0645ba02eafd9561b33d1e0e819ce4df3fcf7dc96e3792  node_exporter-1.1.2.linux-mips64.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=a66b70690c3c4fff953905a041c74834f96be85a806e74a1cc925e607ef50a26  node_exporter-1.1.2.linux-mips64le.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=f7fba791cbc758b021d0e9a2400c82d1f29337e568ab00edc84b053ca467ea3c  node_exporter-1.1.2.linux-mipsle.tar.gz) 
+skipping: [app.lodyanyy.ru] => (item=a66b70690c3c4fff953905a041c74834f96be85a806e74a1cc925e607ef50a26  node_exporter-1.1.2.linux-mips64le.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=41892e451e80160491a1cc7bbe6bccd6cb842ae8340e1bc6e32f72cefb1aee80  node_exporter-1.1.2.linux-armv5.tar.gz) 
+skipping: [db01.lodyanyy.ru] => (item=a66b70690c3c4fff953905a041c74834f96be85a806e74a1cc925e607ef50a26  node_exporter-1.1.2.linux-mips64le.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=294c0b05dff4f368512449de7268e3f06de679a9343e9885044adc702865080b  node_exporter-1.1.2.linux-ppc64.tar.gz) 
+skipping: [runner.lodyanyy.ru] => (item=a66b70690c3c4fff953905a041c74834f96be85a806e74a1cc925e607ef50a26  node_exporter-1.1.2.linux-mips64le.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=d1d201b16d757980db654bb9e448ab0c81ca4c2715243c3fa4305bef5967bd41  node_exporter-1.1.2.linux-ppc64le.tar.gz) 
+skipping: [app.lodyanyy.ru] => (item=f7fba791cbc758b021d0e9a2400c82d1f29337e568ab00edc84b053ca467ea3c  node_exporter-1.1.2.linux-mipsle.tar.gz) 
+skipping: [runner.lodyanyy.ru] => (item=f7fba791cbc758b021d0e9a2400c82d1f29337e568ab00edc84b053ca467ea3c  node_exporter-1.1.2.linux-mipsle.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=6007420f425d08626c05de2dbe0e8bb785a16bba1b02c01cb06d37d7fab3bc97  node_exporter-1.1.2.linux-s390x.tar.gz) 
+skipping: [db01.lodyanyy.ru] => (item=f7fba791cbc758b021d0e9a2400c82d1f29337e568ab00edc84b053ca467ea3c  node_exporter-1.1.2.linux-mipsle.tar.gz) 
+skipping: [runner.lodyanyy.ru] => (item=294c0b05dff4f368512449de7268e3f06de679a9343e9885044adc702865080b  node_exporter-1.1.2.linux-ppc64.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=1cc1bf4cacb84d6c228d9ce8045b5b00b73afd954046f7b2add428a04d14daee  node_exporter-1.1.2.linux-armv6.tar.gz) 
+skipping: [app.lodyanyy.ru] => (item=294c0b05dff4f368512449de7268e3f06de679a9343e9885044adc702865080b  node_exporter-1.1.2.linux-ppc64.tar.gz) 
+skipping: [runner.lodyanyy.ru] => (item=d1d201b16d757980db654bb9e448ab0c81ca4c2715243c3fa4305bef5967bd41  node_exporter-1.1.2.linux-ppc64le.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=0596e9c1cc358e6fcc60cb83f0d1ba9a37ccee11eca035429c9791c0beb04389  node_exporter-1.1.2.netbsd-386.tar.gz) 
+skipping: [db01.lodyanyy.ru] => (item=294c0b05dff4f368512449de7268e3f06de679a9343e9885044adc702865080b  node_exporter-1.1.2.linux-ppc64.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=a9fe816eb7b976b1587d6d654c437f7d78349f70686fa22ae33e94fe84281af2  node_exporter-1.1.2.linux-armv7.tar.gz) 
+skipping: [runner.lodyanyy.ru] => (item=6007420f425d08626c05de2dbe0e8bb785a16bba1b02c01cb06d37d7fab3bc97  node_exporter-1.1.2.linux-s390x.tar.gz) 
+skipping: [app.lodyanyy.ru] => (item=d1d201b16d757980db654bb9e448ab0c81ca4c2715243c3fa4305bef5967bd41  node_exporter-1.1.2.linux-ppc64le.tar.gz) 
+skipping: [db01.lodyanyy.ru] => (item=d1d201b16d757980db654bb9e448ab0c81ca4c2715243c3fa4305bef5967bd41  node_exporter-1.1.2.linux-ppc64le.tar.gz) 
+skipping: [runner.lodyanyy.ru] => (item=0596e9c1cc358e6fcc60cb83f0d1ba9a37ccee11eca035429c9791c0beb04389  node_exporter-1.1.2.netbsd-386.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=46c964efd336f0e35f62c739ce9edf5409911e7652604e411c9b684eb9c48386  node_exporter-1.1.2.netbsd-amd64.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=a99ab2cdc62db25ff01d184e21ad433e3949cd791fc2c80b6bacc6b90d5a62c2  node_exporter-1.1.2.linux-mips.tar.gz) 
+skipping: [runner.lodyanyy.ru] => (item=46c964efd336f0e35f62c739ce9edf5409911e7652604e411c9b684eb9c48386  node_exporter-1.1.2.netbsd-amd64.tar.gz) 
+skipping: [app.lodyanyy.ru] => (item=6007420f425d08626c05de2dbe0e8bb785a16bba1b02c01cb06d37d7fab3bc97  node_exporter-1.1.2.linux-s390x.tar.gz) 
+skipping: [db02.lodyanyy.ru] => (item=d81f86f57a4ed167a4062aa47f8a70b35c146c86bc8e40924c9d1fc3644ec8e6  node_exporter-1.1.2.openbsd-amd64.tar.gz) 
+skipping: [db01.lodyanyy.ru] => (item=6007420f425d08626c05de2dbe0e8bb785a16bba1b02c01cb06d37d7fab3bc97  node_exporter-1.1.2.linux-s390x.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=22d9c2a5363502c79e0645ba02eafd9561b33d1e0e819ce4df3fcf7dc96e3792  node_exporter-1.1.2.linux-mips64.tar.gz) 
+skipping: [app.lodyanyy.ru] => (item=0596e9c1cc358e6fcc60cb83f0d1ba9a37ccee11eca035429c9791c0beb04389  node_exporter-1.1.2.netbsd-386.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=a66b70690c3c4fff953905a041c74834f96be85a806e74a1cc925e607ef50a26  node_exporter-1.1.2.linux-mips64le.tar.gz) 
+skipping: [db01.lodyanyy.ru] => (item=0596e9c1cc358e6fcc60cb83f0d1ba9a37ccee11eca035429c9791c0beb04389  node_exporter-1.1.2.netbsd-386.tar.gz) 
+skipping: [runner.lodyanyy.ru] => (item=d81f86f57a4ed167a4062aa47f8a70b35c146c86bc8e40924c9d1fc3644ec8e6  node_exporter-1.1.2.openbsd-amd64.tar.gz) 
+skipping: [app.lodyanyy.ru] => (item=46c964efd336f0e35f62c739ce9edf5409911e7652604e411c9b684eb9c48386  node_exporter-1.1.2.netbsd-amd64.tar.gz) 
+skipping: [db01.lodyanyy.ru] => (item=46c964efd336f0e35f62c739ce9edf5409911e7652604e411c9b684eb9c48386  node_exporter-1.1.2.netbsd-amd64.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=f7fba791cbc758b021d0e9a2400c82d1f29337e568ab00edc84b053ca467ea3c  node_exporter-1.1.2.linux-mipsle.tar.gz) 
+skipping: [db01.lodyanyy.ru] => (item=d81f86f57a4ed167a4062aa47f8a70b35c146c86bc8e40924c9d1fc3644ec8e6  node_exporter-1.1.2.openbsd-amd64.tar.gz) 
+skipping: [app.lodyanyy.ru] => (item=d81f86f57a4ed167a4062aa47f8a70b35c146c86bc8e40924c9d1fc3644ec8e6  node_exporter-1.1.2.openbsd-amd64.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=294c0b05dff4f368512449de7268e3f06de679a9343e9885044adc702865080b  node_exporter-1.1.2.linux-ppc64.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=3919266f1dbad5f7e5ce7b4207057fc253a8322f570607cc0f3e73f4a53338e3  node_exporter-1.1.2.darwin-amd64.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=5b0195e203dedd3a8973cd1894a55097554a4af6d8f4f0614c2c67d6670ea8ae  node_exporter-1.1.2.linux-386.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=d1d201b16d757980db654bb9e448ab0c81ca4c2715243c3fa4305bef5967bd41  node_exporter-1.1.2.linux-ppc64le.tar.gz) 
+ok: [monitoring.lodyanyy.ru -> localhost] => (item=8c1f6a317457a658e0ae68ad710f6b4098db2cad10204649b51e3c043aa3e70d  node_exporter-1.1.2.linux-amd64.tar.gz)
+skipping: [monitoring.lodyanyy.ru] => (item=eb5e7d16f18bb3272d0d832986fc8ac6cb0b6c42d487c94e15dabb10feae8e04  node_exporter-1.1.2.linux-arm64.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=6007420f425d08626c05de2dbe0e8bb785a16bba1b02c01cb06d37d7fab3bc97  node_exporter-1.1.2.linux-s390x.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=41892e451e80160491a1cc7bbe6bccd6cb842ae8340e1bc6e32f72cefb1aee80  node_exporter-1.1.2.linux-armv5.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=0596e9c1cc358e6fcc60cb83f0d1ba9a37ccee11eca035429c9791c0beb04389  node_exporter-1.1.2.netbsd-386.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=1cc1bf4cacb84d6c228d9ce8045b5b00b73afd954046f7b2add428a04d14daee  node_exporter-1.1.2.linux-armv6.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=a9fe816eb7b976b1587d6d654c437f7d78349f70686fa22ae33e94fe84281af2  node_exporter-1.1.2.linux-armv7.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=46c964efd336f0e35f62c739ce9edf5409911e7652604e411c9b684eb9c48386  node_exporter-1.1.2.netbsd-amd64.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=a99ab2cdc62db25ff01d184e21ad433e3949cd791fc2c80b6bacc6b90d5a62c2  node_exporter-1.1.2.linux-mips.tar.gz) 
+skipping: [gitlab.lodyanyy.ru] => (item=d81f86f57a4ed167a4062aa47f8a70b35c146c86bc8e40924c9d1fc3644ec8e6  node_exporter-1.1.2.openbsd-amd64.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=22d9c2a5363502c79e0645ba02eafd9561b33d1e0e819ce4df3fcf7dc96e3792  node_exporter-1.1.2.linux-mips64.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=a66b70690c3c4fff953905a041c74834f96be85a806e74a1cc925e607ef50a26  node_exporter-1.1.2.linux-mips64le.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=f7fba791cbc758b021d0e9a2400c82d1f29337e568ab00edc84b053ca467ea3c  node_exporter-1.1.2.linux-mipsle.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=294c0b05dff4f368512449de7268e3f06de679a9343e9885044adc702865080b  node_exporter-1.1.2.linux-ppc64.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=d1d201b16d757980db654bb9e448ab0c81ca4c2715243c3fa4305bef5967bd41  node_exporter-1.1.2.linux-ppc64le.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=6007420f425d08626c05de2dbe0e8bb785a16bba1b02c01cb06d37d7fab3bc97  node_exporter-1.1.2.linux-s390x.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=0596e9c1cc358e6fcc60cb83f0d1ba9a37ccee11eca035429c9791c0beb04389  node_exporter-1.1.2.netbsd-386.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=46c964efd336f0e35f62c739ce9edf5409911e7652604e411c9b684eb9c48386  node_exporter-1.1.2.netbsd-amd64.tar.gz) 
+skipping: [monitoring.lodyanyy.ru] => (item=d81f86f57a4ed167a4062aa47f8a70b35c146c86bc8e40924c9d1fc3644ec8e6  node_exporter-1.1.2.openbsd-amd64.tar.gz) 
+
+TASK [node_exporter : Create the node_exporter group] *****************************************************************************************************************
+changed: [gitlab.lodyanyy.ru]
+changed: [runner.lodyanyy.ru]
+changed: [app.lodyanyy.ru]
+changed: [db01.lodyanyy.ru]
+changed: [db02.lodyanyy.ru]
+changed: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Create the node_exporter user] ******************************************************************************************************************
+changed: [db02.lodyanyy.ru]
+changed: [runner.lodyanyy.ru]
+changed: [db01.lodyanyy.ru]
+changed: [app.lodyanyy.ru]
+changed: [gitlab.lodyanyy.ru]
+changed: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Download node_exporter binary to local folder] **************************************************************************************************
+ok: [db01.lodyanyy.ru -> localhost]
+ok: [gitlab.lodyanyy.ru -> localhost]
+ok: [db02.lodyanyy.ru -> localhost]
+ok: [app.lodyanyy.ru -> localhost]
+ok: [runner.lodyanyy.ru -> localhost]
+ok: [monitoring.lodyanyy.ru -> localhost]
+
+TASK [node_exporter : Unpack node_exporter binary] ********************************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+skipping: [app.lodyanyy.ru]
+skipping: [gitlab.lodyanyy.ru]
+skipping: [runner.lodyanyy.ru]
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Propagate node_exporter binaries] ***************************************************************************************************************
+changed: [app.lodyanyy.ru]
+changed: [db02.lodyanyy.ru]
+changed: [runner.lodyanyy.ru]
+changed: [gitlab.lodyanyy.ru]
+changed: [db01.lodyanyy.ru]
+changed: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : propagate locally distributed node_exporter binary] *********************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+skipping: [app.lodyanyy.ru]
+skipping: [gitlab.lodyanyy.ru]
+skipping: [runner.lodyanyy.ru]
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Install selinux python packages [RHEL]] *********************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+skipping: [app.lodyanyy.ru]
+skipping: [gitlab.lodyanyy.ru]
+skipping: [runner.lodyanyy.ru]
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Install selinux python packages [Fedora]] *******************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+skipping: [app.lodyanyy.ru]
+skipping: [gitlab.lodyanyy.ru]
+skipping: [runner.lodyanyy.ru]
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Install selinux python packages [clearlinux]] ***************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+skipping: [app.lodyanyy.ru]
+skipping: [gitlab.lodyanyy.ru]
+skipping: [runner.lodyanyy.ru]
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Copy the node_exporter systemd service file] ****************************************************************************************************
+changed: [db02.lodyanyy.ru]
+changed: [app.lodyanyy.ru]
+changed: [runner.lodyanyy.ru]
+changed: [db01.lodyanyy.ru]
+changed: [gitlab.lodyanyy.ru]
+changed: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Create node_exporter config directory] **********************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+skipping: [app.lodyanyy.ru]
+skipping: [runner.lodyanyy.ru]
+skipping: [gitlab.lodyanyy.ru]
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Copy the node_exporter config file] *************************************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+skipping: [app.lodyanyy.ru]
+skipping: [gitlab.lodyanyy.ru]
+skipping: [runner.lodyanyy.ru]
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Create textfile collector dir] ******************************************************************************************************************
+changed: [db02.lodyanyy.ru]
+changed: [gitlab.lodyanyy.ru]
+changed: [app.lodyanyy.ru]
+changed: [db01.lodyanyy.ru]
+changed: [runner.lodyanyy.ru]
+changed: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Allow node_exporter port in SELinux on RedHat OS family] ****************************************************************************************
+skipping: [db01.lodyanyy.ru]
+skipping: [db02.lodyanyy.ru]
+skipping: [app.lodyanyy.ru]
+skipping: [gitlab.lodyanyy.ru]
+skipping: [runner.lodyanyy.ru]
+skipping: [monitoring.lodyanyy.ru]
+
+TASK [node_exporter : Ensure Node Exporter is enabled on boot] ********************************************************************************************************
+changed: [runner.lodyanyy.ru]
+changed: [db01.lodyanyy.ru]
+changed: [app.lodyanyy.ru]
+changed: [db02.lodyanyy.ru]
+changed: [gitlab.lodyanyy.ru]
+changed: [monitoring.lodyanyy.ru]
+
+RUNNING HANDLER [node_exporter : restart node_exporter] ***************************************************************************************************************
+changed: [runner.lodyanyy.ru]
+changed: [app.lodyanyy.ru]
+changed: [gitlab.lodyanyy.ru]
+changed: [db02.lodyanyy.ru]
+changed: [db01.lodyanyy.ru]
+changed: [monitoring.lodyanyy.ru]
+
+PLAY RECAP ************************************************************************************************************************************************************
+app.lodyanyy.ru            : ok=16   changed=8    unreachable=0    failed=0    skipped=14   rescued=0    ignored=0   
+db01.lodyanyy.ru           : ok=17   changed=8    unreachable=0    failed=0    skipped=16   rescued=0    ignored=0   
+db02.lodyanyy.ru           : ok=16   changed=8    unreachable=0    failed=0    skipped=14   rescued=0    ignored=0   
+gitlab.lodyanyy.ru         : ok=16   changed=8    unreachable=0    failed=0    skipped=14   rescued=0    ignored=0   
+monitoring.lodyanyy.ru     : ok=16   changed=8    unreachable=0    failed=0    skipped=14   rescued=0    ignored=0   
+runner.lodyanyy.ru         : ok=16   changed=8    unreachable=0    failed=0    skipped=14   rescued=0    ignored=0  
+```
+</details>
+
+
