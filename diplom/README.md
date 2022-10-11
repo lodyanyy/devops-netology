@@ -1440,4 +1440,642 @@ Password successfully updated for user with username root.
 
 ![](https://user-images.githubusercontent.com/87534423/195166609-b66e2809-8404-419b-9176-9cf259b47ad1.jpg)
   
+Запускаем плейбук гитлаб раннер:  
+  
+<details>
+<summary> ansible-playbook runner.yml -i hosts </summary> 
 
+```bash
+ubuntu@lodyanyynote:~/netology/diplom/ansible$ ansible-playbook runner.yml -i hosts
+
+PLAY [runner] *********************************************************************************************************************************************************
+
+TASK [Gathering Facts] ************************************************************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [update : Update apt repo and cache on all Debian/Ubuntu boxes] **************************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Load platform-specific variables] ***************************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Container) Pull Image from Registry] ***********************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Container) Define Container volume Path] *******************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Container) List configured runners] ************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Container) Check runner is registered] *********************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : configured_runners?] ****************************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : verified_runners?] ******************************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Container) Register GitLab Runner] *************************************************************************************************************
+skipping: [runner.lodyanyy.ru] => (item={'name': 'runner', 'state': 'present', 'executor': 'shell', 'output_limit': 4096, 'concurrent_specific': '0', 'docker_image': '', 'tags': [], 'run_untagged': True, 'protected': False, 'docker_privileged': False, 'locked': 'false', 'docker_network_mode': 'bridge', 'env_vars': []})              
+
+TASK [gitlab_runner : Create .gitlab-runner dir] **********************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Ensure config.toml exists] **********************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Set concurrent option] **************************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add listen_address to config] *******************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add log_format to config] ***********************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add sentry dsn to config] ***********************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add session server listen_address to config] ****************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add session server advertise_address to config] *************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add session server session_timeout to config] ***************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Get existing config.toml] ***********************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Get pre-existing runner configs] ****************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Create temporary directory] *********************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Write config section for each runner] ***********************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Assemble new config.toml] ***********************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Container) Start the container] ****************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Debian) Get Gitlab repository installation script] *********************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Debian) Install Gitlab repository] *************************************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Debian) Update gitlab_runner_package_name] *****************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Debian) Set gitlab_runner_package_name] ********************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Debian) Install GitLab Runner] *****************************************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Debian) Install GitLab Runner] *****************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Debian) Remove ~/gitlab-runner/.bash_logout on debian buster and ubuntu focal] *****************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Ensure /etc/systemd/system/gitlab-runner.service.d/ exists] *************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add reload command to GitLab Runner system service] *********************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Configure graceful stop for GitLab Runner system service] ***************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Force systemd to reread configs] ****************************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (RedHat) Get Gitlab repository installation script] *********************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (RedHat) Install Gitlab repository] *************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (RedHat) Update gitlab_runner_package_name] *****************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (RedHat) Set gitlab_runner_package_name] ********************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (RedHat) Install GitLab Runner] *****************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Ensure /etc/systemd/system/gitlab-runner.service.d/ exists] *************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add reload command to GitLab Runner system service] *********************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Configure graceful stop for GitLab Runner system service] ***************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Force systemd to reread configs] ****************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (MacOS) Check gitlab-runner executable exists] **************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (MacOS) Set fact -> gitlab_runner_exists] *******************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (MacOS) Get existing version] *******************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (MacOS) Set fact -> gitlab_runner_existing_version] *********************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (MacOS) Precreate gitlab-runner log directory] **************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (MacOS) Download GitLab Runner] *****************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (MacOS) Setting Permissions for gitlab-runner executable] ***************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (MacOS) Install GitLab Runner] ******************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (MacOS) Start GitLab Runner] ********************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (MacOS) Stop GitLab Runner] *********************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (MacOS) Download GitLab Runner] *****************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (MacOS) Setting Permissions for gitlab-runner executable] ***************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (MacOS) Start GitLab Runner] ********************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Arch) Set gitlab_runner_package_name] **********************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Arch) Install GitLab Runner] *******************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Ensure /etc/systemd/system/gitlab-runner.service.d/ exists] *************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add reload command to GitLab Runner system service] *********************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Configure graceful stop for GitLab Runner system service] ***************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Force systemd to reread configs] ****************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Unix) List configured runners] *****************************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Unix) Check runner is registered] **************************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Unix) Register GitLab Runner] ******************************************************************************************************************
+included: /home/ubuntu/netology/diplom/ansible/roles/gitlab_runner/tasks/register-runner.yml for runner.lodyanyy.ru => (item={'name': 'runner', 'state': 'present', 'executor': 'shell', 'output_limit': 4096, 'concurrent_specific': '0', 'docker_image': '', 'tags': [], 'run_untagged': True, 'protected': False, 'docker_privileged': False, 'locked': 'false', 'docker_network_mode': 'bridge', 'env_vars': []})                                                                                                
+
+TASK [gitlab_runner : remove config.toml file] ************************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Create .gitlab-runner dir] **********************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Ensure config.toml exists] **********************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Construct the runner command without secrets] ***************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Register runner to GitLab] **********************************************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Create .gitlab-runner dir] **********************************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Ensure config.toml exists] **********************************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Set concurrent option] **************************************************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add listen_address to config] *******************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add log_format to config] ***********************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add sentry dsn to config] ***********************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add session server listen_address to config] ****************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add session server advertise_address to config] *************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Add session server session_timeout to config] ***************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Get existing config.toml] ***********************************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Get pre-existing runner configs] ****************************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Create temporary directory] *********************************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : Write config section for each runner] ***********************************************************************************************************
+included: /home/ubuntu/netology/diplom/ansible/roles/gitlab_runner/tasks/config-runner.yml for runner.lodyanyy.ru => (item=concurrent = 4
+check_interval = 0
+
+[session_server]
+  session_timeout = 1800
+
+)
+included: /home/ubuntu/netology/diplom/ansible/roles/gitlab_runner/tasks/config-runner.yml for runner.lodyanyy.ru => (item=  name = "runner"
+  output_limit = 4096
+  url = "http://gitlab.lodyanyy.ru/"
+  id = 1
+  token = "oX-FyVybgrXnYXssgvY2"
+  token_obtained_at = 2022-10-11T18:13:02Z
+  token_expires_at = 0001-01-01T00:00:00Z
+  executor = "shell"
+  [runners.custom_build_dir]
+  [runners.cache]
+    [runners.cache.s3]
+    [runners.cache.gcs]
+    [runners.cache.azure]
+)
+
+TASK [gitlab_runner : conf[1/2]: Create temporary file] ***************************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[1/2]: Isolate runner configuration] ********************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : include_tasks] **********************************************************************************************************************************
+skipping: [runner.lodyanyy.ru] => (item={'name': 'runner', 'state': 'present', 'executor': 'shell', 'output_limit': 4096, 'concurrent_specific': '0', 'docker_image': '', 'tags': [], 'run_untagged': True, 'protected': False, 'docker_privileged': False, 'locked': 'false', 'docker_network_mode': 'bridge', 'env_vars': []})              
+
+TASK [gitlab_runner : conf[1/2]: Remove runner config] ****************************************************************************************************************
+skipping: [runner.lodyanyy.ru] => (item={'name': 'runner', 'state': 'present', 'executor': 'shell', 'output_limit': 4096, 'concurrent_specific': '0', 'docker_image': '', 'tags': [], 'run_untagged': True, 'protected': False, 'docker_privileged': False, 'locked': 'false', 'docker_network_mode': 'bridge', 'env_vars': []})              
+
+TASK [gitlab_runner : conf[2/2]: Create temporary file] ***************************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: Isolate runner configuration] ********************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : include_tasks] **********************************************************************************************************************************
+included: /home/ubuntu/netology/diplom/ansible/roles/gitlab_runner/tasks/update-config-runner.yml for runner.lodyanyy.ru => (item={'name': 'runner', 'state': 'present', 'executor': 'shell', 'output_limit': 4096, 'concurrent_specific': '0', 'docker_image': '', 'tags': [], 'run_untagged': True, 'protected': False, 'docker_privileged': False, 'locked': 'false', 'docker_network_mode': 'bridge', 'env_vars': []})                                                                                           
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set concurrent limit option] ********************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set coordinator URL] ****************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set clone URL] **********************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set environment option] *************************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set pre_clone_script] ***************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set pre_build_script] ***************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set tls_ca_file] ********************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set post_build_script] **************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set runner executor option] *********************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set runner shell option] ************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set runner executor section] ********************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set output_limit option] ************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set runner docker image option] *****************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set docker helper image option] *****************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set docker privileged option] *******************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set docker wait_for_services_timeout option] ****************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set docker tlsverify option] ********************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set docker shm_size option] *********************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set docker disable_cache option] ****************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set docker DNS option] **************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set docker DNS search option] *******************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set docker pull_policy option] ******************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set docker volumes option] **********************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set docker devices option] **********************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set runner docker network option] ***************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set custom_build_dir section] *******************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set docker custom_build_dir-enabled option] *****************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache section] ******************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache s3 section] ***************************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache gcs section] **************************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache azure section] ************************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache type option] **************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache path option] **************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache shared option] ************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache s3 server addresss] *******************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache s3 access key] ************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache s3 secret key] ************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache s3 bucket name option] ****************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache s3 bucket location option] ************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache s3 insecure option] *******************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache gcs bucket name] **********************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache gcs credentials file] *****************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache gcs access id] ************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache gcs private key] **********************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache azure account name] *******************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache azure account key] ********************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache azure container name] *****************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache azure storage domain] *****************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set ssh user option] ****************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set ssh host option] ****************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set ssh port option] ****************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set ssh password option] ************************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set ssh identity file option] *******************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set virtualbox base name option] ****************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set virtualbox base snapshot option] ************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set virtualbox base folder option] **************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set virtualbox disable snapshots option] ********************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set builds dir file option] *********************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Set cache dir file option] **********************************************************************************************
+ok: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Ensure directory permissions] *******************************************************************************************
+skipping: [runner.lodyanyy.ru] => (item=) 
+skipping: [runner.lodyanyy.ru] => (item=) 
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Ensure directory access test] *******************************************************************************************
+skipping: [runner.lodyanyy.ru] => (item=) 
+skipping: [runner.lodyanyy.ru] => (item=) 
+
+TASK [gitlab_runner : conf[2/2]: runner[1/1]: Ensure directory access fail on error] **********************************************************************************
+skipping: [runner.lodyanyy.ru] => (item={'changed': False, 'skipped': True, 'skip_reason': 'Conditional result was False', 'item': '', 'ansible_loop_var': 'item'}) 
+skipping: [runner.lodyanyy.ru] => (item={'changed': False, 'skipped': True, 'skip_reason': 'Conditional result was False', 'item': '', 'ansible_loop_var': 'item'}) 
+
+TASK [gitlab_runner : include_tasks] **********************************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : conf[2/2]: Remove runner config] ****************************************************************************************************************
+skipping: [runner.lodyanyy.ru] => (item={'name': 'runner', 'state': 'present', 'executor': 'shell', 'output_limit': 4096, 'concurrent_specific': '0', 'docker_image': '', 'tags': [], 'run_untagged': True, 'protected': False, 'docker_privileged': False, 'locked': 'false', 'docker_network_mode': 'bridge', 'env_vars': []})              
+
+TASK [gitlab_runner : Assemble new config.toml] ***********************************************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Check gitlab-runner executable exists] ************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Set fact -> gitlab_runner_exists] *****************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Get existing version] *****************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Set fact -> gitlab_runner_existing_version] *******************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Ensure install directory exists] ******************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Download GitLab Runner] ***************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Install GitLab Runner] ****************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Install GitLab Runner] ****************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Make sure runner is stopped] **********************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Download GitLab Runner] ***************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) List configured runners] **************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Check runner is registered] ***********************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Register GitLab Runner] ***************************************************************************************************************
+skipping: [runner.lodyanyy.ru] => (item={'name': 'runner', 'state': 'present', 'executor': 'shell', 'output_limit': 4096, 'concurrent_specific': '0', 'docker_image': '', 'tags': [], 'run_untagged': True, 'protected': False, 'docker_privileged': False, 'locked': 'false', 'docker_network_mode': 'bridge', 'env_vars': []})              
+
+TASK [gitlab_runner : (Windows) Create .gitlab-runner dir] ************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Ensure config.toml exists] ************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Set concurrent option] ****************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Add listen_address to config] *********************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Add sentry dsn to config] *************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Add session server listen_address to config] ******************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Add session server advertise_address to config] ***************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Add session server session_timeout to config] *****************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Get existing config.toml] *************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Get pre-existing global config] *******************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Get pre-existing runner configs] ******************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Create temporary directory] ***********************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Write config section for each runner] *************************************************************************************************
+skipping: [runner.lodyanyy.ru] => (item=concurrent = 4
+check_interval = 0
+
+[session_server]
+  session_timeout = 1800
+
+) 
+skipping: [runner.lodyanyy.ru] => (item=  name = "runner"
+  output_limit = 4096
+  url = "http://gitlab.lodyanyy.ru/"
+  id = 1
+  token = "oX-FyVybgrXnYXssgvY2"
+  token_obtained_at = 2022-10-11T18:13:02Z
+  token_expires_at = 0001-01-01T00:00:00Z
+  executor = "shell"
+  [runners.custom_build_dir]
+  [runners.cache]
+    [runners.cache.s3]
+    [runners.cache.gcs]
+    [runners.cache.azure]
+) 
+
+TASK [gitlab_runner : (Windows) Create temporary file config.toml] ****************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Write global config to file] **********************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Create temporary file runners-config.toml] ********************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Assemble runners files in config dir] *************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Assemble new config.toml] *************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Verify config] ************************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+TASK [gitlab_runner : (Windows) Start GitLab Runner] ******************************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+RUNNING HANDLER [gitlab_runner : restart_gitlab_runner] ***************************************************************************************************************
+changed: [runner.lodyanyy.ru]
+
+RUNNING HANDLER [gitlab_runner : restart_gitlab_runner_macos] *********************************************************************************************************
+skipping: [runner.lodyanyy.ru]
+
+PLAY RECAP ************************************************************************************************************************************************************
+runner.lodyanyy.ru         : ok=83   changed=20   unreachable=0    failed=0    skipped=110  rescued=0    ignored=0 
+```
+</details>
+
+Добавляем переменную ssh_key:
+  
+![gitlab2](https://user-images.githubusercontent.com/87534423/195170419-3bec94fe-7ceb-4501-8408-af1b959d1fb5.jpg)
+
+  
