@@ -676,6 +676,7 @@ yandex_compute_instance.runner: Creation complete after 30s [id=fhmthrr1du8en0ld
 
 ```  
 </details> 
+
 Видим созданные виртуальные машины в Yandex Cloud  
 
 ![](https://user-images.githubusercontent.com/87534423/195144494-34a43de2-eaf0-41a3-bee5-d65854e1e5af.jpg)
@@ -890,7 +891,7 @@ lodyanyy.ru                : ok=40   changed=30   unreachable=0    failed=0    s
 ## 4. Установка кластера MySQL  
 
 <details>
-<summary> ansible-playbook mysql.yml -i hosts </summary> 
+<summary> ansible-playbook mysql.yml -i hosts </summary>
 
 ```bash
 ubuntu@lodyanyynote:~/netology/diplom/ansible$ ansible-playbook mysql.yml -i hosts
@@ -1119,9 +1120,9 @@ changed: [db02.lodyanyy.ru]
 PLAY RECAP ************************************************************************************************************************************************************
 db01.lodyanyy.ru           : ok=39   changed=3    unreachable=0    failed=0    skipped=17   rescued=0    ignored=0   
 db02.lodyanyy.ru           : ok=42   changed=3    unreachable=0    failed=0    skipped=14   rescued=0    ignored=0
-```  
-
+```
 </details>
+
 
 Проверка репликации на мастере:  
   
@@ -1264,4 +1265,179 @@ mysql> SELECT User, Host FROM mysql.user;
 | root             | localhost |
 | ubuntu           | localhost |
 +------------------+-----------+
+```  
+  
+## 5. Установка WordPress  
+
+<details>
+<summary> ansible-playbook wordpress.yml -i hosts </summary> 
+
+```bash
+ubuntu@lodyanyynote:~/netology/diplom/ansible$ ansible-playbook wordpress.yml -i hosts
+
+PLAY [app] ************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ************************************************************************************************************************************************
+ok: [app.lodyanyy.ru]
+
+TASK [update : Update apt repo and cache on all Debian/Ubuntu boxes] **************************************************************************************************
+changed: [app.lodyanyy.ru]
+
+TASK [nginx : Install nginx] ******************************************************************************************************************************************
+changed: [app.lodyanyy.ru]
+
+TASK [nginx : Disable default site] ***********************************************************************************************************************************
+changed: [app.lodyanyy.ru]
+
+TASK [memcached : install memcached server] ***************************************************************************************************************************
+changed: [app.lodyanyy.ru]
+
+TASK [php5 : Upgrade system] ******************************************************************************************************************************************
+ok: [app.lodyanyy.ru]
+
+TASK [php5 : install php7.4] ******************************************************************************************************************************************
+changed: [app.lodyanyy.ru] => (item=php7.4)
+changed: [app.lodyanyy.ru] => (item=php7.4-cgi)
+changed: [app.lodyanyy.ru] => (item=php-fpm)
+changed: [app.lodyanyy.ru] => (item=php7.4-memcache)
+changed: [app.lodyanyy.ru] => (item=php7.4-memcached)
+changed: [app.lodyanyy.ru] => (item=php7.4-mysql)
+changed: [app.lodyanyy.ru] => (item=php7.4-gd)
+changed: [app.lodyanyy.ru] => (item=php7.4-curl)
+changed: [app.lodyanyy.ru] => (item=php7.4-xmlrpc)
+
+TASK [php5 : change listen socket] ************************************************************************************************************************************
+changed: [app.lodyanyy.ru]
+
+TASK [wordpress : Install git] ****************************************************************************************************************************************
+changed: [app.lodyanyy.ru]
+
+TASK [wordpress : install nginx configuration] ************************************************************************************************************************
+changed: [app.lodyanyy.ru]
+
+TASK [wordpress : activate site configuration] ************************************************************************************************************************
+changed: [app.lodyanyy.ru]
+
+TASK [wordpress : download WordPress] *********************************************************************************************************************************
+changed: [app.lodyanyy.ru]
+
+TASK [wordpress : creating directory for WordPress] *******************************************************************************************************************
+changed: [app.lodyanyy.ru]
+
+TASK [wordpress : unpack WordPress installation] **********************************************************************************************************************
+changed: [app.lodyanyy.ru]
+
+TASK [wordpress : wordpress php] **************************************************************************************************************************************
+changed: [app.lodyanyy.ru]
+
+RUNNING HANDLER [nginx : restart nginx] *******************************************************************************************************************************
+changed: [app.lodyanyy.ru]
+
+RUNNING HANDLER [php5 : restart php-fpm] ******************************************************************************************************************************
+changed: [app.lodyanyy.ru]
+
+PLAY RECAP ************************************************************************************************************************************************************
+app.lodyanyy.ru            : ok=17   changed=15   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
 ```
+</details>  
+  
+Первоначальная настройка wordpress:
+  
+![](https://user-images.githubusercontent.com/87534423/195161873-c7f710cd-0fc2-4719-86b2-caf6fc40fe9c.jpg)  
+  
+Страничка сайта:
+  
+![wp3](https://user-images.githubusercontent.com/87534423/195162013-4e46d790-0b3d-4f28-9bd0-c345222b4398.jpg)
+
+## 6. Установка Gitlab CE и Gitlab Runner  
+  
+<details>
+<summary> ansible-playbook gitlab.yml -i hosts </summary> 
+
+```bash
+ubuntu@lodyanyynote:~/netology/diplom/ansible$ ansible-playbook gitlab.yml -i hosts
+
+PLAY [gitlab] *********************************************************************************************************************************************************
+
+TASK [Gathering Facts] ************************************************************************************************************************************************
+ok: [gitlab.lodyanyy.ru]
+
+TASK [update : Update apt repo and cache on all Debian/Ubuntu boxes] **************************************************************************************************
+changed: [gitlab.lodyanyy.ru]
+
+TASK [gitlab : Include OS-specific variables.] ************************************************************************************************************************
+ok: [gitlab.lodyanyy.ru]
+
+TASK [gitlab : Check if GitLab configuration file already exists.] ****************************************************************************************************
+ok: [gitlab.lodyanyy.ru]
+
+TASK [gitlab : Check if GitLab is already installed.] *****************************************************************************************************************
+ok: [gitlab.lodyanyy.ru]
+
+TASK [gitlab : Install GitLab dependencies.] **************************************************************************************************************************
+changed: [gitlab.lodyanyy.ru]
+
+TASK [gitlab : Install GitLab dependencies (Debian).] *****************************************************************************************************************
+changed: [gitlab.lodyanyy.ru]
+
+TASK [gitlab : Download GitLab repository installation script.] *******************************************************************************************************
+changed: [gitlab.lodyanyy.ru]
+
+TASK [gitlab : Install GitLab repository.] ****************************************************************************************************************************
+changed: [gitlab.lodyanyy.ru]
+
+TASK [gitlab : Define the Gitlab package name.] ***********************************************************************************************************************
+skipping: [gitlab.lodyanyy.ru]
+
+TASK [gitlab : Install GitLab] ****************************************************************************************************************************************
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC POLL on gitlab.lodyanyy.ru: jid=771836116235.3652 started=1 finished=0
+ASYNC OK on gitlab.lodyanyy.ru: jid=771836116235.3652
+changed: [gitlab.lodyanyy.ru]
+
+TASK [gitlab : Reconfigure GitLab (first run).] ***********************************************************************************************************************
+changed: [gitlab.lodyanyy.ru]
+
+TASK [gitlab : Create GitLab SSL configuration folder.] ***************************************************************************************************************
+skipping: [gitlab.lodyanyy.ru]
+
+TASK [gitlab : Create self-signed certificate.] ***********************************************************************************************************************
+skipping: [gitlab.lodyanyy.ru]
+
+TASK [gitlab : Copy GitLab configuration file.] ***********************************************************************************************************************
+changed: [gitlab.lodyanyy.ru]
+
+RUNNING HANDLER [gitlab : restart gitlab] *****************************************************************************************************************************
+changed: [gitlab.lodyanyy.ru]
+
+PLAY RECAP ************************************************************************************************************************************************************
+gitlab.lodyanyy.ru         : ok=13   changed=9    unreachable=0    failed=0    skipped=3    rescued=0    ignored=0
+```
+</details>
+  
+Меняем пароль на gitlab.lodyanyy.ru для root пользователя:
+```bash
+ubuntu@gitlab:~$ sudo gitlab-rake "gitlab:password:reset[root]"
+Enter password: 
+Confirm password: 
+Password successfully updated for user with username root.
+```
+Указываем токен гитлаба в роли gitlab_runner в файле /defaults/main.yml
+
+![](https://user-images.githubusercontent.com/87534423/195166609-b66e2809-8404-419b-9176-9cf259b47ad1.jpg)
+  
+
