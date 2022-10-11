@@ -1,0 +1,19 @@
+- hosts: runner
+  gather_facts: true
+  become:
+    true
+  become_method:
+    sudo
+  become_user:
+    root
+  remote_user:
+    ubuntu
+
+  roles:
+   - update
+   - gitlab_runner
+
+
+  environment:
+     http_proxy: http://lodyanyy.ru:8118
+     https_proxy: http://lodyanyy.ru:8118
